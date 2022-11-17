@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/main_bottom01"
+        android:title="홈"
+        android:icon="@drawable/icon_home"/>
+    <item
+        android:id="@+id/main_bottom02"
+        android:title="지도"
+        android:icon="@drawable/icon_magnifier"/>
+    <item
+        android:id="@+id/main_bottom03"
+        android:title="즐겨찾기"
+        android:icon="@drawable/icon_heart"/>
+    <item
+        android:id="@+id/main_bottom04"
+        android:title="정보"
+        android:icon="@drawable/icon_mypage"/>
+</menu>
+
