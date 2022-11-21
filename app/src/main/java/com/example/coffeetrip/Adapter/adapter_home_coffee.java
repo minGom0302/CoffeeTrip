@@ -5,10 +5,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.coffeetrip.DTO.DTO_home_coffee;
@@ -19,6 +22,19 @@ import java.util.List;
 public class adapter_home_coffee extends RecyclerView.Adapter<adapter_home_coffee.MyViewHolder> {
     private final String TAG = "adapter_home_coffee : ";
     private List<DTO_home_coffee> DTO_list;
+
+    // 외부에서 클릭이벤트 사용을 위해 언터페이스 작성
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position, DTO_home_coffee dto);
+    }
+
+    // 리스너 객체 참조를 저장하는 변수
+    private OnItemClickListener mlistener = null;
+
+    // OnItemClickListener 리스너 객체 참조를 아답터에 전달하는 메서드
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mlistener = listener;
+    }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private ImageView image;
@@ -31,7 +47,25 @@ public class adapter_home_coffee extends RecyclerView.Adapter<adapter_home_coffe
             image = view.findViewById(R.id.listview_main_home_coffee_backImage);
             shopNm = view.findViewById(R.id.listview_main_home_coffee_name);
             shopLoca = view.findViewById(R.id.listview_main_home_coffee_loca);
+
+            // item 클릭 이벤트 처리
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // getAdapterPosition : 현재 자신의 위치를 알아내는 메소드
+                    int position = getAdapterPosition();
+                    // 리사이클러뷰가 아이템뷰를 갱신하는 과정에서 아이템이 어댑터에서 삭제되면 getAdapterPosition() 메서드는 NO_POSITION을 리턴하기 때문에 체크를 해준다.
+                    if (position != RecyclerView.NO_POSITION) {
+                        if(mlistener != null) {
+                            // 리스너 객체의 메서드 호출
+                            DTO_home_coffee dto = DTO_list.get(position);
+                            mlistener.onItemClick(view, position, dto);
+                        }
+                    }
+                }
+            });
         }
+
     }
 
     public adapter_home_coffee(List<DTO_home_coffee> DTO_list) {
@@ -60,6 +94,7 @@ public class adapter_home_coffee extends RecyclerView.Adapter<adapter_home_coffe
         holder.image.setImageResource(R.drawable.icon_cafe);
         holder.shopNm.setText(item.getNm());
         holder.shopLoca.setText(item.loca + " " + item.gu);
+
     }
 
     @Override

@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.coffeetrip.Adapter.adapter_home_coffee;
 import com.example.coffeetrip.DTO.DTO_home_coffee;
@@ -66,11 +67,20 @@ public class Fragment_main_home extends Fragment {
                     Log.i(TAG, String.valueOf(listDTO));
 
                     // adpater에 listDTO 넣어서 설정
-                    coffeeAdapter = new adapter_home_coffee(listDTO);
-                    coffeeRecyclerView.setAdapter(coffeeAdapter);
+                    coffeeAdapter = new adapter_home_coffee(listDTO);;
                     // 주석 처리한 건 세로 안된 건 가로로 리스트가 생김
                     // coffeeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                     coffeeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
+
+                    // 클릭이벤트 가져와서 재설정
+                    coffeeAdapter.setOnItemClickListener(new adapter_home_coffee.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(View view, int position, DTO_home_coffee dto) {
+                            Toast.makeText(getContext(), "커피집 이름 : " + dto.nm, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    coffeeRecyclerView.setAdapter(coffeeAdapter);
 
                 } else {
                     Log.i(TAG, "응답 실패");
