@@ -36,6 +36,9 @@ dependencies {
     // Scalars 변환기 라이브러리
     implementation 'com.squareup.retrofit2:converter-scalars:2.6.4'
 
+    // 네이버 지도 SDK
+    implementation 'com.naver.maps:map-sdk:3.12.0'
+
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
