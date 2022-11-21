@@ -6,10 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.coffeetrip.handler.backspaceHandler;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class Activity_Main extends AppCompatActivity {
     private static final String TAG = "Main_Activity";
+    private backspaceHandler bsHandler = new backspaceHandler(this);
     private BottomNavigationView botNavView;
 
     @Override
@@ -42,5 +44,10 @@ public class Activity_Main extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        bsHandler.onBackPressed();
     }
 }
