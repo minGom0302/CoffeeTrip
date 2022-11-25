@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,25 +29,50 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class Fragment_main_home extends Fragment {
+public class Fragment_main_home extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private final String TAG = "frag_main_home.java : ";
+    Gson gson;
+    Retrofit retrofit;
+
+    SwipeRefreshLayout swipeRefreshLayout;
     RecyclerView coffeeRecyclerView;
-    List<DTO_home_coffee> listDTO;
     adapter_home_coffee coffeeAdapter;
 
+    List<DTO_home_coffee> listDTO;
+
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main_home, container, false);
 
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.main_home_swipeLayout);
+        swipeRefreshLayout.setOnRefreshListener(this);
+
         // 리사이클러뷰 찾아오기
         coffeeRecyclerView = (RecyclerView)view.findViewById(R.id.main_home_coffee_recyclerView);
 
         // 통신 시 JSON 사용과 파싱을 위한 생성
-        Gson gson = new GsonBuilder().setLenient().create();
+        gson = new GsonBuilder().setLenient().create();
 
+        // 데이터 가져와서 화면에 표현 (첫 줄 내 주변 카페)
+        getDataCoffee();
+
+        return view;
+    }
+
+    @Override
+    public void onRefresh() {
+        // 데이터 다시 가져옴
+        getDataCoffee();
+        // 새로고침 완료 처리
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    // 첫 줄 내 주변 카페 데이터를 가져오는 메소드
+    public void getDataCoffee() {
         //Retrofit 구현
-        Retrofit retrofit = new Retrofit.Builder()
+        retrofit = new Retrofit.Builder()
                 .baseUrl(home_coffee_service.URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
@@ -92,7 +118,5 @@ public class Fragment_main_home extends Fragment {
                 Log.i(TAG, "응답 실패 : " + t.getMessage());
             }
         });
-
-        return view;
     }
 }
