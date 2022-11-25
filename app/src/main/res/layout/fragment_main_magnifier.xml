@@ -5,11 +5,21 @@
     android:layout_height="match_parent"
     tools:context=".Fragment_main_magnifier">
 
-
-    <fragment
-        android:id="@+id/magnifier_map_fragment"
-        android:name="com.naver.maps.map.MapFragment"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:id="@+id/mapView" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/main_magnifier_refreshBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:drawableLeft="@drawable/vector_refresh"
+        android:text="새로고침"
+        android:background="#E6FFFFFF"/>
 
 </FrameLayout>

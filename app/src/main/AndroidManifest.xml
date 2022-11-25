@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -19,8 +20,8 @@
         tools:targetApi="31" >
 
         <meta-data
-            android:name="com.naver.maps.map.CLIENT_ID"
-            android:value="ra3obvgw3q" />
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCj1NYvuH6B7kWUigZ3D6Q1onixlPrZg3w" />
 
         <activity
             android:name=".Activity_Main"

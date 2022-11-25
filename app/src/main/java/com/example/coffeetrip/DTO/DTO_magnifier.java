@@ -19,8 +19,10 @@ public class DTO_magnifier {
     public double lat;
     @SerializedName("lng")
     public double lng;
+    @SerializedName("distance")
+    public double distance;
 
-    public DTO_magnifier(int seq, String nm, String loca, String gu, String address, String tel, double lat, double lng) {
+    public DTO_magnifier(int seq, String nm, String loca, String gu, String address, String tel, double lat, double lng, double distance) {
         this.seq = seq;
         this.nm = nm;
         this.loca = loca;
@@ -29,6 +31,7 @@ public class DTO_magnifier {
         this.tel = tel;
         this.lat = lat;
         this.lng = lng;
+        this.distance = distance;
     }
 
     public int getSeq() { return seq; }
@@ -39,6 +42,7 @@ public class DTO_magnifier {
     public String getTel() { return tel; }
     public double getLat() { return lat; }
     public double getLng() { return lng; }
+    public double getDistance() { return distance; }
 
     @Override
     public String toString() {
@@ -51,6 +55,7 @@ public class DTO_magnifier {
                 ", tel='" + tel + '\'' +
                 ", lat=" + lat +
                 ", lng=" + lng +
+                ", distance=" + distance +
                 '}';
     }
 }
