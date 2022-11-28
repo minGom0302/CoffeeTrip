@@ -9,14 +9,20 @@ public class DTO_userInfo {
     public String pw;
     @SerializedName("nm")
     public String nm;
+    @SerializedName("nickname")
+    public String nickname;
     @SerializedName("address")
     public String address;
+    @SerializedName("phone")
+    public String phone;
 
-    public DTO_userInfo(String id, String pw, String nm, String address) {
+    public DTO_userInfo(String id, String pw, String nm, String nickname, String address, String phone) {
         this.id = id;
         this.pw = pw;
         this.nm = nm;
+        this.nickname = nickname;
         this.address = address;
+        this.phone = phone;
     }
 
     public String getId() {
@@ -31,6 +37,10 @@ public class DTO_userInfo {
         return nm;
     }
 
+    public String getNickname() {
+        return nickname;
+    }
+
     public String getAddress() {
         return address;
     }
@@ -41,7 +51,9 @@ public class DTO_userInfo {
                 "id='" + id + '\'' +
                 ", pw='" + pw + '\'' +
                 ", nm='" + nm + '\'' +
+                ", nickname='" + nickname + '\'' +
                 ", address='" + address + '\'' +
+                ", phone='" + phone + '\'' +
                 '}';
     }
 }

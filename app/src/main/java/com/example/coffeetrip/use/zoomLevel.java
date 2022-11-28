@@ -1,4 +1,4 @@
-package com.example.coffeetrip.DTO;
+package com.example.coffeetrip.use;
 
 public class zoomLevel {
     float returnValue;
