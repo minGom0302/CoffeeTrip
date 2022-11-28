@@ -126,6 +126,11 @@ public class Activity_Login extends AppCompatActivity {
             // return 된 자료가 없으면 로그인 실패
             item.toastMsg(this, "아이디 혹은 비밀번호를 확인하세요.");
         } else {
+            // 기본 정보 내부에 저장 > 언제든 빨리 불러와 사용하기 위해서
+            sp_e.putString("nm", dto.nm);
+            sp_e.putString("nickname", dto.nickname);
+            sp_e.putString("address", dto.address);
+            sp_e.putString("phone", dto.phone);
             // 아이디 저장 체크박스 확인하여 설정
             if(saveIdCb.isChecked()) {
                 sp_e.putString("id", dto.id);
