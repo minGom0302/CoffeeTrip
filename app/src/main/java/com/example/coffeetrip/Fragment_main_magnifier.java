@@ -71,7 +71,7 @@ public class Fragment_main_magnifier extends Fragment implements OnMapReadyCallb
         Log.i(TAG, "onCreateView");
 
         // 권한 확인
-        checkDangerousPermissions();
+        //checkDangerousPermissions();
 
         // 지도 객체 설정
         mapView = new MapView(this.getActivity());
@@ -122,31 +122,6 @@ public class Fragment_main_magnifier extends Fragment implements OnMapReadyCallb
         mapView.onLowMemory();
     }
 
-    // 권한 확인
-    private void checkDangerousPermissions() {
-        String[] permissions = { Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION };
-
-        int permissionCheck = PackageManager.PERMISSION_GRANTED;
-        for (int i=0; i<permissions.length; i++) {
-            permissionCheck = ContextCompat.checkSelfPermission(getContext(), permissions[i]);
-            if(permissionCheck == PackageManager.PERMISSION_DENIED) {
-                break;
-            }
-        }
-
-        if(permissionCheck == PackageManager.PERMISSION_GRANTED) {
-            // 권한 있음
-        } else {
-            // 권한 없음
-            if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), permissions[0])) {
-                // 권한 설명 필요함
-            } else {
-                ActivityCompat.requestPermissions(getActivity(), permissions, 1);
-            }
-        }
-    }
-
-
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         this.googleMap = googleMap;
@@ -162,25 +137,6 @@ public class Fragment_main_magnifier extends Fragment implements OnMapReadyCallb
                 nowLng = nowCenter.longitude; // 현재 화면 중심 좌표의 경도
             }
         });
-
-
-        // 지도를 클릭 했을 때 (움직일 때 X)
-/*        googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(@NonNull LatLng latLng) {
-                Toast.makeText(getContext(), "화면 터치 이벤트" + latLng.latitude + " / " +  latLng.longitude, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        // MyLocation 버튼 클릭 이벤트
-        googleMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
-            @Override
-            public boolean onMyLocationButtonClick() {
-                // 내위치 버튼 누르면 화면이동(cameraMove) 실행
-                Toast.makeText(getContext(), "내 위치로 이동을 눌렀습니다.", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });*/
 
         // 구글 맵 셋팅
         setGoogleMap();

@@ -2,12 +2,17 @@ package com.example.coffeetrip;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.coffeetrip.handler.backspaceHandler;
+import com.example.coffeetrip.use.useItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class Activity_Main extends AppCompatActivity {
@@ -19,10 +24,16 @@ public class Activity_Main extends AppCompatActivity {
     Fragment_main_favorite f03 = null;
     Fragment_main_mypage f04 = null;
 
+    static final int PERMISSIONS_REQUEST = 0x0000001;
+    useItem item = new useItem();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        item.OnCheckPermission(this, this);
+        //OnCheckPermission();
 
         botNavView = findViewById(R.id.main_bottom_navigation);
 
@@ -86,6 +97,23 @@ public class Activity_Main extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    // 권한 요청 응답 처리
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // 권한 요청 수락했을 때
+                    Toast.makeText(this, "앱 실행을 위한 권한이 설정되었습니다.", Toast.LENGTH_LONG).show();
+                } else {
+                    // 권한 요청 거절했을 때
+                    item.showDialog(this, this, "권한 확인", "권한을 허용하지 않으면 종료됩니다.\n해당 앱에 대한 권한을 다시 설정하시겠습니까?", "확인");
+                }
+                break;
+        }
     }
 
     @Override
