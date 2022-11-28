@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -82,7 +83,14 @@ public class Activity_Login extends AppCompatActivity {
                 }).start();
 
                 // 로그인 실행
-                implementLogin();
+                new Handler().postDelayed(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        implementLogin();
+                    }
+                }, 500);// 1초 정도 딜레이를 준 후 시작
             }
         });
         signUpBtn.setOnClickListener(v -> {
