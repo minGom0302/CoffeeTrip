@@ -15,12 +15,18 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.coffeetrip.Adapter.adapter_multi_image;
+import com.example.coffeetrip.Adapter.adapter_spinner;
+import com.example.coffeetrip.DTO.DTO_home_coffee;
 import com.example.coffeetrip.DTO.DTO_image;
 import com.example.coffeetrip.Interface.home_coffee_service;
 import com.google.gson.Gson;
@@ -32,6 +38,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -52,7 +59,17 @@ public class Activity_UploadPage extends AppCompatActivity {
     // 리사이클러뷰에 적용시킬 어댑터
     adapter_multi_image adapter;
     home_coffee_service coffeeAPI;
+    // Spinner 사용을 위한 아답터
+    adapter_spinner adapterSpinner;
+    Spinner spinner;
+    // sipnner에서 선택한 값을 저장할 변수
+    String selectedItem;
+    int selectedSeq;
+    // 이름과 seq를 저장할 리스트
+    List<String> spinnerList = new ArrayList<>();
+    List<Integer> spinnerSeqList = new ArrayList<>();
 
+    TextView spinnerValueTv;
     ImageView imageView;
     RelativeLayout relativeLayout;
 
@@ -62,6 +79,8 @@ public class Activity_UploadPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_page);
 
+        spinnerValueTv = (TextView) findViewById(R.id.spinnerValue);
+        spinner = (Spinner) findViewById(R.id.spinner);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         imageView = (ImageView) findViewById(R.id.loadingImage);
         relativeLayout = (RelativeLayout) findViewById(R.id.loadingPage);
@@ -73,6 +92,49 @@ public class Activity_UploadPage extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
         coffeeAPI = retrofit.create(home_coffee_service.class);
+
+        // 자료 가져옴
+        coffeeAPI.getAllDTO().enqueue(new Callback<List<DTO_home_coffee>>() {
+            @Override
+            public void onResponse(Call<List<DTO_home_coffee>> call, Response<List<DTO_home_coffee>> response) {
+                if(response.isSuccessful()) {
+                    List<DTO_home_coffee> listDto = response.body();
+                    // 스피너 속 값들 설정
+                    for (DTO_home_coffee dto : listDto) {
+                        spinnerList.add(dto.getNm());
+                        spinnerSeqList.add(dto.getSeq());
+                    }
+
+                    // 스피너 셋팅
+                    adapterSpinner = new adapter_spinner(getApplicationContext(), spinnerList);
+                    spinner.setAdapter(adapterSpinner);
+
+                    // 스피너 값 선택 이벤트
+                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            // 어댑터에서 정의한 메서드를 통해 스피너에서 선택한 아이템의 이름을 받아온다.
+                            selectedItem = (String) adapterSpinner.getItem(position);
+                            selectedSeq = spinnerSeqList.get(position);
+                            spinnerValueTv.setText(selectedItem + " & seq 값은 : " + selectedSeq);
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<DTO_home_coffee>> call, Throwable t) {
+
+            }
+        });
+
+
+
 
         // 앨범으로 이동 > 커스텀 갤러리 만들기는 나중에
         Button choiceBtn = (Button) findViewById(R.id.choiceBtn);

@@ -35,6 +35,23 @@
             android:layout_marginTop="25dp"
             android:layout_below="@id/textView"/>
 
+        <TextView
+            android:layout_margin="15dp"
+            android:id="@+id/spinnerValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="스피너 선택값"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:gravity="center"
+            android:layout_below="@id/recyclerView"/>
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/spinnerValue"/>
+
         <LinearLayout
             android:layout_marginTop="30dp"
             android:layout_width="match_parent"
