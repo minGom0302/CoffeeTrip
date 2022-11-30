@@ -39,6 +39,7 @@
             android:layout_marginTop="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
             android:orientation="horizontal"
             android:gravity="center"
             android:layout_alignParentBottom="true">
@@ -49,11 +50,18 @@
                 android:layout_marginRight="10dp"
                 android:text="choice"/>
             <Button
+                android:id="@+id/title_uploadBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="title uplaod"/>
+            <Button
                 android:id="@+id/uploadBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="upload"/>
+                android:text="upload" />
         </LinearLayout>
     </RelativeLayout>
 

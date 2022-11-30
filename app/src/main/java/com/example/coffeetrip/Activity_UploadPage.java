@@ -21,13 +21,17 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.coffeetrip.Adapter.adapter_multi_image;
+import com.example.coffeetrip.DTO.DTO_image;
 import com.example.coffeetrip.Interface.home_coffee_service;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -47,6 +51,7 @@ public class Activity_UploadPage extends AppCompatActivity {
     RecyclerView recyclerView;
     // 리사이클러뷰에 적용시킬 어댑터
     adapter_multi_image adapter;
+    home_coffee_service coffeeAPI;
 
     ImageView imageView;
     RelativeLayout relativeLayout;
@@ -67,7 +72,7 @@ public class Activity_UploadPage extends AppCompatActivity {
                 .baseUrl(home_coffee_service.URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
-        home_coffee_service coffeeAPI = retrofit.create(home_coffee_service.class);
+        coffeeAPI = retrofit.create(home_coffee_service.class);
 
         // 앨범으로 이동 > 커스텀 갤러리 만들기는 나중에
         Button choiceBtn = (Button) findViewById(R.id.choiceBtn);
@@ -82,37 +87,15 @@ public class Activity_UploadPage extends AppCompatActivity {
         // 선택한 사진 서버로 올리기
         Button uploadBtn = (Button) findViewById(R.id.uploadBtn);
         uploadBtn.setOnClickListener(v -> {
-            imageView.setVisibility(View.VISIBLE);
-            relativeLayout.setVisibility(View.INVISIBLE);
-            String id = "admin_";
-            for(Uri uri : uriList) {
-                // 사진의 루트 가져와서 File 객체 생성
-                String imagePath = getRealPathFromUri(uri);
-                File file = new File(imagePath);
-
-                // MultipartBody 형식으로 만들어 ArrayList 모으기
-                RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-                MultipartBody.Part uploadFile = MultipartBody.Part.createFormData("files",  id + file.getName(), requestBody);
-                bodyList.add(uploadFile);
-            }
-
-            try {
-                // 동기 실행
-                coffeeAPI.uploadMultipleFiles(bodyList).enqueue(new Callback<String>() {
-                    @Override
-                    public void onResponse(Call<String> call, Response<String> response) {
-                        uploadResponse(0);
-                    }
-
-                    @Override
-                    public void onFailure(Call<String> call, Throwable t) {
-                        uploadResponse(1);
-                    }
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            uploadImage("1");
         });
+
+        // 사진 타이틀 폴더로 올리기
+        Button titleUploadBtn = (Button) findViewById(R.id.title_uploadBtn);
+        titleUploadBtn.setOnClickListener(v -> {
+            uploadImage("0");
+        });
+
     }
 
     // 앨범에서 액티비티로 돌아온 후 실행되는 메서드
@@ -178,10 +161,69 @@ public class Activity_UploadPage extends AppCompatActivity {
         return result;
     }
 
+    private void uploadImage(String condition) {
+        imageView.setVisibility(View.VISIBLE);
+        relativeLayout.setVisibility(View.INVISIBLE);
+
+        String id = "admin";
+        for(Uri uri : uriList) {
+            Date nowDate = new Date();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
+            //원하는 데이터 포맷 지정
+            String strNowDate = simpleDateFormat.format(nowDate);
+
+            // 사진의 루트 가져와서 File 객체 생성
+            String imagePath = getRealPathFromUri(uri);
+            File file = new File(imagePath);
+
+            // MultipartBody 형식으로 만들어 ArrayList 모으기
+            RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+            MultipartBody.Part uploadFile = MultipartBody.Part.createFormData("files",  id + strNowDate + "_" + file.getName(), requestBody);
+            bodyList.add(uploadFile);
+        }
+
+        if(condition == "0") {
+            try {
+                // 동기 실행
+                coffeeAPI.uploadMultipleFilesToTitle(bodyList).enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        uploadResponse(0);
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        uploadResponse(1);
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if(condition == "1") {
+            try {
+                // 동기 실행
+                coffeeAPI.uploadMultipleFiles(bodyList).enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        uploadResponse(0);
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        uploadResponse(1);
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     private void uploadResponse(int num) {
         imageView.setVisibility(View.INVISIBLE);
         relativeLayout.setVisibility(View.VISIBLE);
-        adapter.clearItems();
+        uriList.clear();
+        bodyList.clear();
         adapter.notifyDataSetChanged();
 
         switch (num) {
