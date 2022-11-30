@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
+    android:id="@+id/main_home_Linearlayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".Fragment_main_home">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -15,13 +17,9 @@
         tools:context=".Fragment_main_home">
 
         <LinearLayout
-            android:id="@+id/main_home_Linearlayout"
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            tools:context=".Fragment_main_home">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/title01"
@@ -41,4 +39,4 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-</RelativeLayout>
+</LinearLayout>

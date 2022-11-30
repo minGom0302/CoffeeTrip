@@ -26,7 +26,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Activity_Login extends AppCompatActivity {
-    Button signUpBtn, loginBtn, pwFindBtn;
+    Button signUpBtn, loginBtn, pwFindBtn, uploadPageBtn;
     EditText idEt, pwEt;
     CheckBox saveIdCb, autoLoginCb;
 
@@ -66,6 +66,7 @@ public class Activity_Login extends AppCompatActivity {
         loginBtn = (Button) findViewById(R.id.login_loginBtn);
         signUpBtn = (Button) findViewById(R.id.login_singUpBtn);
         pwFindBtn = (Button) findViewById(R.id.login_pwFindBtn);
+        uploadPageBtn = (Button) findViewById(R.id.uploadPageBtn);
         saveIdCb = (CheckBox) findViewById(R.id.login_saveId);
         autoLoginCb = (CheckBox) findViewById(R.id.login_autoLogin);
 
@@ -99,6 +100,9 @@ public class Activity_Login extends AppCompatActivity {
         pwFindBtn.setOnClickListener(v -> {
             changeView(1);
         });
+        uploadPageBtn.setOnClickListener(v -> {
+            changeView(3);
+        });
 
         // 아이디 저장 여부 확인
         checkBoxSetUp();
@@ -114,6 +118,8 @@ public class Activity_Login extends AppCompatActivity {
             intent = new Intent(this, Activity_pwFind.class);
         } else if(num == 2) {
             intent = new Intent(this, Activity_Main.class);
+        } else if(num == 3) {
+            intent = new Intent(this, Activity_UploadPage.class);
         }
 
         startActivity(intent);
