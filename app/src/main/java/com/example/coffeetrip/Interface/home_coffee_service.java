@@ -26,10 +26,14 @@ public interface home_coffee_service {
     @Multipart
     @POST("uploadFiles")
     Call<String> uploadMultipleFiles(
-            @Part ArrayList<MultipartBody.Part> files);
+            @Part ArrayList<MultipartBody.Part> files,
+            @Part MultipartBody.Part seq,
+            @Part MultipartBody.Part uploader);
 
     @Multipart
     @POST("uploadFilesToTitle")
     Call<String> uploadMultipleFilesToTitle(
-            @Part ArrayList<MultipartBody.Part> files);
+            @Part ArrayList<MultipartBody.Part> files,
+            @Part MultipartBody.Part seq,
+            @Part MultipartBody.Part uploader);
 }

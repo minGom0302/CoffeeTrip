@@ -228,6 +228,9 @@ public class Activity_UploadPage extends AppCompatActivity {
         relativeLayout.setVisibility(View.INVISIBLE);
 
         String id = "admin";
+        String text = String.valueOf(selectedSeq);
+        MultipartBody.Part part2 = MultipartBody.Part.createFormData("uploader", id);
+        MultipartBody.Part part1 = MultipartBody.Part.createFormData("seq", text);
         for(Uri uri : uriList) {
             Date nowDate = new Date();
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
@@ -247,7 +250,7 @@ public class Activity_UploadPage extends AppCompatActivity {
         if(condition == "0") {
             try {
                 // 동기 실행
-                coffeeAPI.uploadMultipleFilesToTitle(bodyList).enqueue(new Callback<String>() {
+                coffeeAPI.uploadMultipleFilesToTitle(bodyList, part1, part2).enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
                         uploadResponse(0);
@@ -264,7 +267,7 @@ public class Activity_UploadPage extends AppCompatActivity {
         } else if(condition == "1") {
             try {
                 // 동기 실행
-                coffeeAPI.uploadMultipleFiles(bodyList).enqueue(new Callback<String>() {
+                coffeeAPI.uploadMultipleFiles(bodyList, part1, part2).enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
                         uploadResponse(0);
