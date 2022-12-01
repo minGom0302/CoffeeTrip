@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.coffeetrip.DTO.DTO_home_coffee;
 import com.example.coffeetrip.R;
 
@@ -22,6 +23,7 @@ import java.util.List;
 public class adapter_home_coffee extends RecyclerView.Adapter<adapter_home_coffee.MyViewHolder> {
     private final String TAG = "adapter_home_coffee : ";
     private List<DTO_home_coffee> DTO_list;
+    Context context;
 
     // 외부에서 클릭이벤트 사용을 위해 언터페이스 작성
     public interface OnItemClickListener {
@@ -40,6 +42,7 @@ public class adapter_home_coffee extends RecyclerView.Adapter<adapter_home_coffe
         private ImageView image;
         private TextView shopNm;
         private TextView shopLoca;
+        private TextView favoriteCount;
 
         public MyViewHolder(@NonNull View view) {
             super(view);
@@ -47,6 +50,7 @@ public class adapter_home_coffee extends RecyclerView.Adapter<adapter_home_coffe
             image = view.findViewById(R.id.listview_main_home_coffee_backImage);
             shopNm = view.findViewById(R.id.listview_main_home_coffee_name);
             shopLoca = view.findViewById(R.id.listview_main_home_coffee_loca);
+            favoriteCount = view.findViewById(R.id.listview_main_home_coffee_favoriteCount);
 
             // item 클릭 이벤트 처리
             view.setOnClickListener(new View.OnClickListener() {
@@ -77,7 +81,7 @@ public class adapter_home_coffee extends RecyclerView.Adapter<adapter_home_coffe
     @NonNull
     @Override
     public adapter_home_coffee.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
+        context = parent.getContext();
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View view = inflater.inflate(R.layout.listview_main_home_coffee, parent, false);
@@ -91,10 +95,16 @@ public class adapter_home_coffee extends RecyclerView.Adapter<adapter_home_coffe
 
         DTO_home_coffee item = DTO_list.get(position);
 
-        holder.image.setImageResource(R.drawable.icon_cafe);
         holder.shopNm.setText(item.getNm());
         holder.shopLoca.setText(item.loca + " " + item.gu);
+        holder.favoriteCount.setText("좋아요 : " + item.favorite);
 
+        String url = "http://119.148.144.244:9172/image/title/";
+        if(item.getFileName() == null) {
+            holder.image.setImageResource(R.drawable.icon_cafe);
+        } else {
+            Glide.with(context).load(url+item.getFileName()).into(holder.image);
+        }
     }
 
     @Override

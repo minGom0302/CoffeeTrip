@@ -12,9 +12,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.coffeetrip.Adapter.adapter_home_coffee;
 import com.example.coffeetrip.DTO.DTO_home_coffee;
 import com.example.coffeetrip.Interface.home_coffee_service;
@@ -40,6 +42,7 @@ public class Fragment_main_home extends Fragment implements SwipeRefreshLayout.O
 
     List<DTO_home_coffee> listDTO;
 
+    ImageView imageView;
     @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,6 +51,7 @@ public class Fragment_main_home extends Fragment implements SwipeRefreshLayout.O
 
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.main_home_swipeLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
+        imageView = view.findViewById(R.id.listview_main_home_coffee_backImage);
 
         // 리사이클러뷰 찾아오기
         coffeeRecyclerView = (RecyclerView)view.findViewById(R.id.main_home_coffee_recyclerView);

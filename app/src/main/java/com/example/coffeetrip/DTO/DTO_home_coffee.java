@@ -15,14 +15,20 @@ public class DTO_home_coffee {
     public String address;
     @SerializedName("tel")
     public String tel;
+    @SerializedName("favorite")
+    public int favorite;
+    @SerializedName("file_name")
+    public String fileName;
 
-    public DTO_home_coffee(int seq, String nm, String loca, String gu, String address, String tel) {
+    public DTO_home_coffee(int seq, String nm, String loca, String gu, String address, String tel, int favorite, String fileName) {
         this.seq = seq;
         this.nm = nm;
         this.loca = loca;
         this.gu = gu;
         this.address = address;
         this.tel = tel;
+        this.favorite = favorite;
+        this.fileName = fileName;
     }
 
     public int getSeq() { return seq; }
@@ -31,6 +37,8 @@ public class DTO_home_coffee {
     public String getGu() { return gu; }
     public String getAddress() { return address; }
     public String getTel() { return tel; }
+    public int getFavorite() { return favorite; }
+    public String getFileName() { return fileName; }
 
     @Override
     public String toString() {
@@ -41,6 +49,8 @@ public class DTO_home_coffee {
                 ", gu='" + gu + '\'' +
                 ", address='" + address + '\'' +
                 ", tel='" + tel + '\'' +
+                ", favorite=" + favorite +
+                ", fileName='" + fileName + '\'' +
                 '}';
     }
 }

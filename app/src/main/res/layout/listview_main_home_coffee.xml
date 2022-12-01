@@ -1,37 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/listview_main_home_coffee_backImage"
-        android:background="@drawable/frame_01"
         android:layout_width="220dp"
         android:layout_height="250dp"
-        android:layout_margin="10dp"/>
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/frame_01"
+        android:padding="2dp" />
 
     <TextView
         android:id="@+id/listview_main_home_coffee_name"
-        android:layout_width="220dp"
-        android:layout_height="250dp"
-        android:layout_margin="10dp"
-        android:padding="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/listview_main_home_coffee_loca"
+        android:layout_marginLeft="20dp"
         android:text="카페이름"
-        android:textSize="20sp"
         android:textColor="#000000"
-        android:gravity="bottom" />
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/listview_main_home_coffee_loca"
-        android:layout_width="220dp"
-        android:layout_height="250dp"
-        android:layout_margin="10dp"
-        android:paddingLeft="10dp"
-        android:paddingBottom="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/listview_main_home_coffee_backImage"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
         android:text="위치"
-        android:textSize="18sp"
         android:textColor="#000000"
-        android:gravity="bottom" />
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
+    <TextView
+        android:id="@+id/listview_main_home_coffee_favoriteCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/listview_main_home_coffee_backImage"
+        android:layout_alignRight="@id/listview_main_home_coffee_backImage"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:text="좋아요 : 87"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:textStyle="bold" />
 
-</FrameLayout>
+</RelativeLayout>
