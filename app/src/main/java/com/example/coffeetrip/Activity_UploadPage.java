@@ -38,7 +38,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -146,18 +148,17 @@ public class Activity_UploadPage extends AppCompatActivity {
             startActivityForResult(intent, 200);
         });
 
-        // 선택한 사진 서버로 올리기
-        Button uploadBtn = (Button) findViewById(R.id.uploadBtn);
-        uploadBtn.setOnClickListener(v -> {
-            uploadImage("1");
-        });
-
         // 사진 타이틀 폴더로 올리기
         Button titleUploadBtn = (Button) findViewById(R.id.title_uploadBtn);
         titleUploadBtn.setOnClickListener(v -> {
             uploadImage("0");
         });
 
+        // 선택한 사진 서버로 올리기
+        Button uploadBtn = (Button) findViewById(R.id.uploadBtn);
+        uploadBtn.setOnClickListener(v -> {
+            uploadImage("1");
+        });
     }
 
     // 앨범에서 액티비티로 돌아온 후 실행되는 메서드
@@ -227,11 +228,12 @@ public class Activity_UploadPage extends AppCompatActivity {
         imageView.setVisibility(View.VISIBLE);
         relativeLayout.setVisibility(View.INVISIBLE);
 
-        String id = "admin";
-        String text = String.valueOf(selectedSeq);
-        MultipartBody.Part part2 = MultipartBody.Part.createFormData("uploader", id);
-        MultipartBody.Part part1 = MultipartBody.Part.createFormData("seq", text);
+        // 같이 보낼 데이터 준비
+        String uploader = "admin"; // 저장하는 사람
+        String seq = String.valueOf(selectedSeq); // 선택한 번호 (이미지와 카페 연결)
+
         for(Uri uri : uriList) {
+            // 날짜 데이터 생성
             Date nowDate = new Date();
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
             //원하는 데이터 포맷 지정
@@ -243,44 +245,32 @@ public class Activity_UploadPage extends AppCompatActivity {
 
             // MultipartBody 형식으로 만들어 ArrayList 모으기
             RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-            MultipartBody.Part uploadFile = MultipartBody.Part.createFormData("files",  id + strNowDate + "_" + file.getName(), requestBody);
+            MultipartBody.Part uploadFile = MultipartBody.Part.createFormData("files",  uploader + "_" + strNowDate + "_" + file.getName(), requestBody);
             bodyList.add(uploadFile);
         }
 
-        if(condition == "0") {
-            try {
-                // 동기 실행
-                coffeeAPI.uploadMultipleFilesToTitle(bodyList, part1, part2).enqueue(new Callback<String>() {
-                    @Override
-                    public void onResponse(Call<String> call, Response<String> response) {
-                        uploadResponse(0);
-                    }
+        try {
+            // 같이 보낼 데이터 hasMap 형식으로 제작
+            Map<String, String> map = new HashMap<>();
 
-                    @Override
-                    public void onFailure(Call<String> call, Throwable t) {
-                        uploadResponse(1);
-                    }
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else if(condition == "1") {
-            try {
-                // 동기 실행
-                coffeeAPI.uploadMultipleFiles(bodyList, part1, part2).enqueue(new Callback<String>() {
-                    @Override
-                    public void onResponse(Call<String> call, Response<String> response) {
-                        uploadResponse(0);
-                    }
+            map.put("seq", seq);
+            map.put("uploader", uploader);
+            map.put("condition", condition);
 
-                    @Override
-                    public void onFailure(Call<String> call, Throwable t) {
-                        uploadResponse(1);
-                    }
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            // 동기 실행
+            coffeeAPI.uploadMultipleFiles(bodyList, map).enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    uploadResponse(0);
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    uploadResponse(1);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
