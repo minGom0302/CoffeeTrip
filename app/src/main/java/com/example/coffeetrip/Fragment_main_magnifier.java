@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.coffeetrip.DTO.DTO_magnifier;
+import com.example.coffeetrip.use.useItem;
 import com.example.coffeetrip.use.zoomLevel;
 import com.example.coffeetrip.Interface.magnifier_service;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -56,8 +57,6 @@ public class Fragment_main_magnifier extends Fragment implements OnMapReadyCallb
 
     List<DTO_magnifier> listDTO;
     magnifier_service API;
-    Retrofit retrofit;
-    Gson gson;
 
     //double lat, lng;
     double nowLat, nowLng;
@@ -69,9 +68,6 @@ public class Fragment_main_magnifier extends Fragment implements OnMapReadyCallb
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main_magnifier, container, false);
         Log.i(TAG, "onCreateView");
-
-        // 권한 확인
-        //checkDangerousPermissions();
 
         // 지도 객체 설정
         mapView = new MapView(this.getActivity());
@@ -206,23 +202,9 @@ public class Fragment_main_magnifier extends Fragment implements OnMapReadyCallb
         if(listDTO != null) {
             listDTO.clear();
         }
-        if(retrofit != null) {
-            retrofit = null;
-        }
-        if(gson != null) {
-            gson = null;
-        }
         googleMap.clear();
 
-        // 통신 시 JSON 사용과 파싱을 위한 생성
-        gson = new GsonBuilder().setLenient().create();
-
-        //Retrofit 구현
-        retrofit = new Retrofit.Builder()
-                .baseUrl(magnifier_service.URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-        API = retrofit.create(magnifier_service.class);
+        API = useItem.getRetrofit().create(magnifier_service.class);
 
         // 현재 줌 레벨을 가지고 zoomLevel 파일에서 반경(kilometer)를 가져옴
         zoomLevel zoom = new zoomLevel();

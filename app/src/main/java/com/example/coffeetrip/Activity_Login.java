@@ -34,8 +34,6 @@ public class Activity_Login extends AppCompatActivity {
     useItem item = new useItem();
     DTO_userInfo dto = null;
 
-    Retrofit retrofit;
-    Gson gson;
     userInfo_service userAPI;
     SharedPreferences sp;
     SharedPreferences.Editor sp_e;
@@ -51,15 +49,10 @@ public class Activity_Login extends AppCompatActivity {
         sp_e = sp.edit();
 
         // 통신 시 JSON 사용과 파싱을 위한 생성
-        gson = new GsonBuilder().setLenient().create();
-
-        retrofit = new Retrofit.Builder()
-                .baseUrl(userInfo_service.URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
+        useItem.setGsonAndRetrofit();
 
         // API 설정
-        userAPI = retrofit.create(userInfo_service.class);
+        userAPI = useItem.getRetrofit().create(userInfo_service.class);
 
         idEt = (EditText) findViewById(R.id.login_idEt);
         pwEt = (EditText) findViewById(R.id.login_pwEt);
@@ -91,7 +84,7 @@ public class Activity_Login extends AppCompatActivity {
                     {
                         implementLogin();
                     }
-                }, 500);// 1초 정도 딜레이를 준 후 시작
+                }, 700);// 0.7초 정도 딜레이를 준 후 시작
             }
         });
         signUpBtn.setOnClickListener(v -> {

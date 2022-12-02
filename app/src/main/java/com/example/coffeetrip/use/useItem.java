@@ -11,7 +11,29 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
+import com.example.coffeetrip.Interface.home_coffee_service;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class useItem {
+    static String URL = "http://119.148.144.244:9172/";
+    static Gson gson;
+    static Retrofit retrofit;
+
+    public static void setGsonAndRetrofit() {
+        gson = new GsonBuilder().setLenient().create();
+        retrofit = new Retrofit.Builder()
+                .baseUrl(URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+    }
+
+    public static Retrofit getRetrofit() {
+        return retrofit;
+    }
 
     // 일반 토스트메세지 뿌리기
     public void toastMsg(Context context, String msg) {

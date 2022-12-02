@@ -7,31 +7,29 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Fragment_main_home">
-
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/main_home_swipeLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".Fragment_main_home">
-
+        android:layout_height="wrap_content">
         <ScrollView
+            android:id="@+id/main_home_scrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
 
                 <TextView
                     android:id="@+id/title01"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:text="[ 전국 인기 Top 5 ]"
+                    android:text="[ 전국 인기 Top 10 ]"
                     android:textColor="#000000"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/main_home_coffee_recyclerView"
@@ -45,11 +43,16 @@
                     android:layout_margin="10dp"
                     android:text="[ 최근에 생긴 카페 ]"
                     android:textColor="#000000"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
 
-                </LinearLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/main_home_coffee_recyclerView_recently"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="30dp"/>
+
+            </LinearLayout>
         </ScrollView>
-
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
 </LinearLayout>

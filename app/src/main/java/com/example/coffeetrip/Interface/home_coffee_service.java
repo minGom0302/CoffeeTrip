@@ -15,8 +15,6 @@ import retrofit2.http.Part;
 import retrofit2.http.PartMap;
 
 public interface home_coffee_service {
-    String URL = "http://119.148.144.244:9172/";
-
     @GET("home/coffee/all")
     Call<List<DTO_home_coffee>> getAllDTO();
 
@@ -25,4 +23,10 @@ public interface home_coffee_service {
     Call<String> uploadMultipleFiles(
             @Part ArrayList<MultipartBody.Part> files,
             @PartMap Map<String, String> data);
+
+    @GET("home/coffee/top")
+    Call<List<DTO_home_coffee>> getTopTenDTO();
+
+    @GET("home/coffee/recently")
+    Call<List<DTO_home_coffee>> getRecentlyCafeDTO();
 }

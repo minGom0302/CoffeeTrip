@@ -27,6 +27,7 @@ import com.example.coffeetrip.Adapter.adapter_multi_image;
 import com.example.coffeetrip.Adapter.adapter_spinner;
 import com.example.coffeetrip.DTO.DTO_home_coffee;
 import com.example.coffeetrip.Interface.home_coffee_service;
+import com.example.coffeetrip.use.useItem;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -83,13 +84,8 @@ public class Activity_UploadPage extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.loadingImage);
         relativeLayout = (RelativeLayout) findViewById(R.id.loadingPage);
 
-        // Gson 및 Retrofit 이용해 service(API) 만들기
-        Gson gson = new GsonBuilder().setLenient().create();
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(home_coffee_service.URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-        coffeeAPI = retrofit.create(home_coffee_service.class);
+        // service(API) 만들기
+        coffeeAPI = useItem.getRetrofit().create(home_coffee_service.class);
 
         // 자료 가져옴
         coffeeAPI.getAllDTO().enqueue(new Callback<List<DTO_home_coffee>>() {
