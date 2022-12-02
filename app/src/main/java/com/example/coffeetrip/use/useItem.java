@@ -15,6 +15,8 @@ import com.example.coffeetrip.Interface.home_coffee_service;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.text.DecimalFormat;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -22,6 +24,7 @@ public class useItem {
     static String URL = "http://119.148.144.244:9172/";
     static Gson gson;
     static Retrofit retrofit;
+    static DecimalFormat commaFormat;
 
     public static void setGsonAndRetrofit() {
         gson = new GsonBuilder().setLenient().create();
@@ -29,6 +32,7 @@ public class useItem {
                 .baseUrl(URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
+        commaFormat = new DecimalFormat("###,###");
     }
 
     public static Retrofit getRetrofit() {
@@ -76,5 +80,9 @@ public class useItem {
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    public static String createComma(int value) {
+        return commaFormat.format(value);
     }
 }

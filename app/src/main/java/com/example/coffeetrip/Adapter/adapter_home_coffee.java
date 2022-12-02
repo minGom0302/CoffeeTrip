@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.coffeetrip.DTO.DTO_home_coffee;
 import com.example.coffeetrip.R;
+import com.example.coffeetrip.use.useItem;
 
 import java.util.List;
 
@@ -97,7 +98,7 @@ public class adapter_home_coffee extends RecyclerView.Adapter<adapter_home_coffe
 
         holder.shopNm.setText(item.getNm());
         holder.shopLoca.setText(item.loca + " " + item.gu);
-        holder.favoriteCount.setText("좋아요 : " + item.favorite);
+        holder.favoriteCount.setText("좋아요 : " + useItem.createComma(item.favorite));
 
         String url = "http://119.148.144.244:9172/image/title/";
         if(item.getFileName() == null) {
