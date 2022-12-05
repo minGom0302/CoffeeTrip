@@ -22,6 +22,9 @@ import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -71,20 +74,7 @@ public class Activity_Login extends AppCompatActivity {
             if(id.getBytes().length < 1 || pw.getBytes().length < 1) {
                 item.toastMsg(this, "아이디 혹은 비밀번호를 입력해주세요.");
             } else {
-                // DB 정보 확인
-                new Thread(() -> {
-                    loginCheck(id, pw);
-                }).start();
-
-                // 로그인 실행
-                new Handler().postDelayed(new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        implementLogin();
-                    }
-                }, 700);// 0.7초 정도 딜레이를 준 후 시작
+                loginCheck(id, pw);
             }
         });
         signUpBtn.setOnClickListener(v -> {
@@ -120,11 +110,22 @@ public class Activity_Login extends AppCompatActivity {
 
     // DB 정보 확인 (가입 여부 확인)
     private void loginCheck(String id, String pw) {
-        try {
-            dto = userAPI.loginCheck(id, pw).execute().body();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        userAPI.loginCheck(id, pw).enqueue(new Callback<DTO_userInfo>() {
+            @Override
+            public void onResponse(Call<DTO_userInfo> call, Response<DTO_userInfo> response) {
+                if(response.isSuccessful()) {
+                    dto = response.body();
+                    implementLogin();
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DTO_userInfo> call, Throwable t) {
+
+            }
+        });
     }
 
     // 로그인 실행
