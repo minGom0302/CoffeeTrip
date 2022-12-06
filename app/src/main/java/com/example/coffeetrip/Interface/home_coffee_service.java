@@ -1,5 +1,6 @@
 package com.example.coffeetrip.Interface;
 
+import com.example.coffeetrip.DTO.DTO_detail_menu;
 import com.example.coffeetrip.DTO.DTO_home_coffee;
 
 import java.util.ArrayList;
@@ -11,12 +12,40 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.PartMap;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface home_coffee_service {
     @GET("home/coffee/all")
     Call<List<DTO_home_coffee>> getAllDTO();
+
+    @GET("home/coffee/top")
+    Call<List<DTO_home_coffee>> getTopTenDTO();
+
+    @GET("home/coffee/recently")
+    Call<List<DTO_home_coffee>> getRecentlyCafeDTO();
+
+    @GET("detail")
+    Call<DTO_home_coffee> getDetailInfo(
+            @Query("seq") int seq,
+            @Query("id") String id);
+
+    @GET("detail/menu")
+    Call<List<DTO_detail_menu>> getDetailMenu(
+            @Query("seq") int seq);
+
+    @PUT("cafe/plus")
+    Call<Void> plusFavorite(
+            @Query("seq") int seq,
+            @Query("id") String id);
+
+    @PUT("cafe/minus")
+    Call<Void> minusFavorite(
+            @Query("seq") int seq,
+            @Query("id") String id);
 
     @Multipart
     @POST("uploadFiles")
@@ -24,9 +53,9 @@ public interface home_coffee_service {
             @Part ArrayList<MultipartBody.Part> files,
             @PartMap Map<String, String> data);
 
-    @GET("home/coffee/top")
-    Call<List<DTO_home_coffee>> getTopTenDTO();
-
-    @GET("home/coffee/recently")
-    Call<List<DTO_home_coffee>> getRecentlyCafeDTO();
+    @Multipart
+    @POST("uploadFiles/menu")
+    Call<String> uploadMenuFiles(
+            @Part ArrayList<MultipartBody.Part> files,
+            @PartMap Map<String, String> data);
 }

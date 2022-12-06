@@ -19,6 +19,14 @@ public class DTO_home_coffee {
     public int favorite;
     @SerializedName("file_name")
     public String fileName;
+    @SerializedName("lat")
+    public double lat;
+    @SerializedName("lng")
+    public double lng;
+    @SerializedName("favoriteYN")
+    public boolean favoriteYN;
+    @SerializedName("rating")
+    public double rating;
 
     public DTO_home_coffee(int seq, String nm, String loca, String gu, String address, String tel, int favorite, String fileName) {
         this.seq = seq;
@@ -31,6 +39,20 @@ public class DTO_home_coffee {
         this.fileName = fileName;
     }
 
+    public DTO_home_coffee(int seq, String nm, String loca, String gu, String address, String tel, int favorite, double lat, double lng, boolean favoriteYN, double rating) {
+        this.seq = seq;
+        this.nm = nm;
+        this.loca = loca;
+        this.gu = gu;
+        this.address = address;
+        this.tel = tel;
+        this.favorite = favorite;
+        this.lat = lat;
+        this.lng = lng;
+        this.favoriteYN = favoriteYN;
+        this.rating = rating;
+    }
+
     public int getSeq() { return seq; }
     public String getNm() { return nm; }
     public String getLoca() { return loca; }
@@ -39,18 +61,5 @@ public class DTO_home_coffee {
     public String getTel() { return tel; }
     public int getFavorite() { return favorite; }
     public String getFileName() { return fileName; }
-
-    @Override
-    public String toString() {
-        return "DTO_home_coffee{" +
-                "seq=" + seq +
-                ", nm='" + nm + '\'' +
-                ", loca='" + loca + '\'' +
-                ", gu='" + gu + '\'' +
-                ", address='" + address + '\'' +
-                ", tel='" + tel + '\'' +
-                ", favorite=" + favorite +
-                ", fileName='" + fileName + '\'' +
-                '}';
-    }
+    public double getRating() { return rating; }
 }

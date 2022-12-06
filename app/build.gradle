@@ -50,7 +50,7 @@ dependencies {
     // 화면 내려서 새로고침하기 위해 의존성 추가
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
-    // glide 라이브러리
+    // glide 라이브러리 > URL을 통해 사진을 가져오는 라이브러리
     implementation "com.github.bumptech.glide:glide:4.11.0"
 
     implementation 'androidx.appcompat:appcompat:1.5.1'

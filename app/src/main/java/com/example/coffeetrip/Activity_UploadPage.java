@@ -17,6 +17,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -32,6 +34,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -71,6 +74,8 @@ public class Activity_UploadPage extends AppCompatActivity {
     TextView spinnerValueTv;
     ImageView imageView;
     RelativeLayout relativeLayout;
+    EditText menuName, menuPrice;
+    CheckBox checkBox1, checkBox2;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -83,6 +88,10 @@ public class Activity_UploadPage extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         imageView = (ImageView) findViewById(R.id.loadingImage);
         relativeLayout = (RelativeLayout) findViewById(R.id.loadingPage);
+        menuName = (EditText) findViewById(R.id.menuName);
+        menuPrice = (EditText) findViewById(R.id.menuPrice);
+        checkBox1 = (CheckBox) findViewById(R.id.checkBox1);
+        checkBox2 = (CheckBox) findViewById(R.id.checkBox2);
 
         // service(API) 만들기
         coffeeAPI = useItem.getRetrofit().create(home_coffee_service.class);
@@ -150,6 +159,12 @@ public class Activity_UploadPage extends AppCompatActivity {
         Button uploadBtn = (Button) findViewById(R.id.uploadBtn);
         uploadBtn.setOnClickListener(v -> {
             uploadImage("1");
+        });
+
+        // 메뉴 업로드
+        Button menuUploadBtn = (Button) findViewById(R.id.menuUploadBtn);
+        menuUploadBtn.setOnClickListener(v -> {
+            uploadImage("2");
         });
     }
 
@@ -242,25 +257,57 @@ public class Activity_UploadPage extends AppCompatActivity {
         }
 
         try {
-            // 같이 보낼 데이터 hasMap 형식으로 제작
-            Map<String, String> map = new HashMap<>();
+            if(condition == "2") {
+                String name = menuName.getText().toString();
+                String price = menuPrice.getText().toString();
+                DecimalFormat decimalFormat = new DecimalFormat("#,###");
+                int i = Integer.parseInt(price);
+                price = decimalFormat.format(i);
 
-            map.put("seq", seq);
-            map.put("uploader", uploader);
-            map.put("condition", condition);
+                Map<String, String> map = new HashMap<>();
+                map.put("shopSeq", seq);
+                map.put("menuName", name);
+                map.put("menuPrice", price);
 
-            // 동기 실행
-            coffeeAPI.uploadMultipleFiles(bodyList, map).enqueue(new Callback<String>() {
-                @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-                    uploadResponse(0);
+                if(checkBox1.isChecked()) {
+                    map.put("type", "0");
+                } else if (checkBox2.isChecked()) {
+                    map.put("type", "1");
                 }
 
-                @Override
-                public void onFailure(Call<String> call, Throwable t) {
-                    uploadResponse(1);
-                }
-            });
+                coffeeAPI.uploadMenuFiles(bodyList, map).enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        uploadResponse(0);
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        uploadResponse(1);
+                    }
+                });
+            } else {
+                // 같이 보낼 데이터 hasMap 형식으로 제작
+                Map<String, String> map = new HashMap<>();
+
+                map.put("seq", seq);
+                map.put("uploader", uploader);
+                map.put("condition", condition);
+
+                // 동기 실행
+                coffeeAPI.uploadMultipleFiles(bodyList, map).enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        uploadResponse(0);
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        uploadResponse(1);
+                    }
+                });
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }

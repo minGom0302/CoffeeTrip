@@ -1,6 +1,7 @@
 package com.example.coffeetrip;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -28,8 +29,11 @@ import com.example.coffeetrip.Interface.home_coffee_service;
 import com.example.coffeetrip.use.useItem;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.SerializedName;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,8 +43,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Fragment_main_home extends Fragment implements SwipeRefreshLayout.OnRefreshListener, View.OnTouchListener {
     private final String TAG = "frag_main_home.java : ";
-    Gson gson;
-    Retrofit retrofit;
 
     SwipeRefreshLayout swipeRefreshLayout;
     RecyclerView coffeeRecyclerView, recentlyRecyclerView;
@@ -54,7 +56,6 @@ public class Fragment_main_home extends Fragment implements SwipeRefreshLayout.O
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main_home, container, false);
 
-        ScrollView scrollView = view.findViewById(R.id.main_home_scrollView);
         // 리사이클러뷰 찾아오기
         coffeeRecyclerView = (RecyclerView) view.findViewById(R.id.main_home_coffee_recyclerView);
         recentlyRecyclerView = (RecyclerView) view.findViewById(R.id.main_home_coffee_recyclerView_recently);
@@ -94,15 +95,13 @@ public class Fragment_main_home extends Fragment implements SwipeRefreshLayout.O
 
                     // adpater에 listDTO 넣어서 설정
                     coffeeAdapter = new adapter_home_coffee(top_listDTO);;
-                    // 주석 처리한 건 세로 안된 건 가로로 리스트가 생김
-                    // coffeeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                     coffeeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
 
                     // 클릭이벤트 가져와서 재설정
                     coffeeAdapter.setOnItemClickListener(new adapter_home_coffee.OnItemClickListener() {
                         @Override
                         public void onItemClick(View view, int position, DTO_home_coffee dto) {
-                            Toast.makeText(getContext(), "커피집 이름 : " + dto.nm, Toast.LENGTH_SHORT).show();
+                            changeLayout(0, dto);
                         }
                     });
 
@@ -128,15 +127,13 @@ public class Fragment_main_home extends Fragment implements SwipeRefreshLayout.O
 
                     // adpater에 listDTO 넣어서 설정
                     recentlyAdapter = new adapter_home_coffee(recently_listDTO);;
-                    // 주석 처리한 건 세로 안된 건 가로로 리스트가 생김
-                    // coffeeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                     recentlyRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
 
                     // 클릭이벤트 가져와서 재설정
                     recentlyAdapter.setOnItemClickListener(new adapter_home_coffee.OnItemClickListener() {
                         @Override
                         public void onItemClick(View view, int position, DTO_home_coffee dto) {
-                            Toast.makeText(getContext(), "커피집 이름 : " + dto.nm, Toast.LENGTH_SHORT).show();
+                            changeLayout(0, dto);
                         }
                     });
 
@@ -166,5 +163,13 @@ public class Fragment_main_home extends Fragment implements SwipeRefreshLayout.O
                 break;
         }
         return false;
+    }
+
+    public void changeLayout(int num, DTO_home_coffee dto) {
+        if(num == 0) {
+            Intent intent = new Intent(getContext(), Activity_DetailPage.class);
+            intent.putExtra("seq", dto.seq);
+            startActivity(intent);
+        }
     }
 }
