@@ -1,5 +1,6 @@
 package com.example.coffeetrip.Interface;
 
+import com.example.coffeetrip.DTO.DTO_detail_image;
 import com.example.coffeetrip.DTO.DTO_detail_menu;
 import com.example.coffeetrip.DTO.DTO_home_coffee;
 
@@ -36,6 +37,11 @@ public interface home_coffee_service {
     @GET("detail/menu")
     Call<List<DTO_detail_menu>> getDetailMenu(
             @Query("seq") int seq);
+
+    @GET("detail/image")
+    Call<List<DTO_detail_image>> getDetailImage(
+            @Query("seq") int seq,
+            @Query("type") int type);
 
     @PUT("cafe/plus")
     Call<Void> plusFavorite(

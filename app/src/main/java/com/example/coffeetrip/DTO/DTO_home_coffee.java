@@ -17,7 +17,7 @@ public class DTO_home_coffee {
     public String tel;
     @SerializedName("favorite")
     public int favorite;
-    @SerializedName("file_name")
+    @SerializedName("fileName")
     public String fileName;
     @SerializedName("lat")
     public double lat;
