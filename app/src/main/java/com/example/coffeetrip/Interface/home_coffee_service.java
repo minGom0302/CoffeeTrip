@@ -46,6 +46,10 @@ public interface home_coffee_service {
     Call<List<DTO_detail_review>> getDetailReview(
             @Query("seq") int seq );
 
+    @GET("home/favorite")
+    Call<List<DTO_home_coffee>> getFavorite(
+            @Query("id") String id);
+
     @PUT("cafe/plus")
     Call<Void> plusFavorite(
             @Query("seq") int seq,

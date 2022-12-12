@@ -2,9 +2,7 @@ package com.example.coffeetrip;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
-import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -77,6 +75,7 @@ public class Activity_Main extends AppCompatActivity {
                             getSupportFragmentManager().beginTransaction().add(R.id.main_frame_container, f03).commit();
                         } else {
                             getSupportFragmentManager().beginTransaction().show(f03).commit();
+                            f03.setRecyclerView();
                         }
                         if(f01 != null) getSupportFragmentManager().beginTransaction().hide(f01).commit();
                         if(f02 != null) getSupportFragmentManager().beginTransaction().hide(f02).commit();

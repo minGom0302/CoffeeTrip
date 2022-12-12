@@ -26,7 +26,7 @@ public class DTO_home_coffee {
     @SerializedName("favoriteYN")
     public boolean favoriteYN;
     @SerializedName("rating")
-    public double rating;
+    public float rating;
 
     public DTO_home_coffee(int seq, String nm, String loca, String gu, String address, String tel, int favorite, String fileName) {
         this.seq = seq;
@@ -39,7 +39,7 @@ public class DTO_home_coffee {
         this.fileName = fileName;
     }
 
-    public DTO_home_coffee(int seq, String nm, String loca, String gu, String address, String tel, int favorite, double lat, double lng, boolean favoriteYN, double rating) {
+    public DTO_home_coffee(int seq, String nm, String loca, String gu, String address, String tel, int favorite, double lat, double lng, boolean favoriteYN, float rating) {
         this.seq = seq;
         this.nm = nm;
         this.loca = loca;
@@ -53,6 +53,14 @@ public class DTO_home_coffee {
         this.rating = rating;
     }
 
+    public DTO_home_coffee(int seq, String nm, String address, float rating, String fileName) {
+        this.seq = seq;
+        this.nm = nm;
+        this.address = address;
+        this.rating = rating;
+        this.fileName = fileName;
+    }
+
     public int getSeq() { return seq; }
     public String getNm() { return nm; }
     public String getLoca() { return loca; }
@@ -61,5 +69,5 @@ public class DTO_home_coffee {
     public String getTel() { return tel; }
     public int getFavorite() { return favorite; }
     public String getFileName() { return fileName; }
-    public double getRating() { return rating; }
+    public float getRating() { return rating; }
 }
