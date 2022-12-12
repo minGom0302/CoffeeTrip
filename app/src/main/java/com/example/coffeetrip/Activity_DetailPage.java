@@ -132,7 +132,7 @@ public class Activity_DetailPage extends AppCompatActivity implements OnMapReady
                     if(data.getRating() % 1 == 0) {
                         rating.setText(String.valueOf((int)data.getRating()));
                     } else {
-                        rating.setText(String.valueOf(data.getRating()));
+                        rating.setText(String.valueOf(Math.round(data.getRating()*10)/10.0));
                     }
                     ratingBar.setRating((float) data.rating);
                     getSupportActionBar().setTitle(data.nm);
