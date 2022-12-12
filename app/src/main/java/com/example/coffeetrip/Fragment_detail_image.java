@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -14,15 +12,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
-import android.widget.ListAdapter;
 
 import com.example.coffeetrip.Adapter.adapter_detail_image;
-import com.example.coffeetrip.DTO.DTO_detail_image;
+import com.example.coffeetrip.DTO.DTO_detail_review;
 import com.example.coffeetrip.Interface.home_coffee_service;
 import com.example.coffeetrip.use.useItem;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -53,13 +48,13 @@ public class Fragment_detail_image extends Fragment {
     }
 
     private void getImage(int seq) {
-        coffeeAPI.getDetailImage(seq, 1).enqueue(new Callback<List<DTO_detail_image>>() {
+        coffeeAPI.getDetailImage(seq, 1).enqueue(new Callback<List<DTO_detail_review>>() {
             @Override
-            public void onResponse(Call<List<DTO_detail_image>> call, Response<List<DTO_detail_image>> response) {
+            public void onResponse(Call<List<DTO_detail_review>> call, Response<List<DTO_detail_review>> response) {
                 if(response.isSuccessful()) {
-                    List<DTO_detail_image> imageList = response.body();
-                    for(DTO_detail_image i : imageList) {
-                        Log.i(TAG, "여기부터 / "+i.getFileName());
+                    List<DTO_detail_review> imageList = response.body();
+                    for(DTO_detail_review i : imageList) {
+                        Log.i(TAG, "여기부터 / "+i.getImageName());
                     }
                     //recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
                     recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
@@ -70,7 +65,7 @@ public class Fragment_detail_image extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<DTO_detail_image>> call, Throwable t) {
+            public void onFailure(Call<List<DTO_detail_review>> call, Throwable t) {
 
             }
         });
