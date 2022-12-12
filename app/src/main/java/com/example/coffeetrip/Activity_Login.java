@@ -3,6 +3,7 @@ package com.example.coffeetrip;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -40,6 +41,7 @@ public class Activity_Login extends AppCompatActivity {
     userInfo_service userAPI;
     SharedPreferences sp;
     SharedPreferences.Editor sp_e;
+    ProgressDialog loadingDialog;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -74,6 +76,7 @@ public class Activity_Login extends AppCompatActivity {
             if(id.getBytes().length < 1 || pw.getBytes().length < 1) {
                 item.toastMsg(this, "아이디 혹은 비밀번호를 입력해주세요.");
             } else {
+                loadingDialog = ProgressDialog.show(Activity_Login.this, "로그인 중 ...", "Please Wait...", true, false);
                 loginCheck(id, pw);
             }
         });
@@ -147,7 +150,7 @@ public class Activity_Login extends AppCompatActivity {
                 sp_e.putBoolean("saveId", false);
             }
             sp_e.commit();
-
+            loadingDialog.dismiss();
             // 메인 화면으로
             changeView(2);
             // 로그인 성공 멘트
