@@ -1,10 +1,10 @@
 package com.example.coffeetrip;
 
 
-import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.pm.PackageManager;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.location.Location;
 import android.location.LocationListener;
@@ -12,8 +12,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -34,17 +32,14 @@ import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class Fragment_main_magnifier extends Fragment implements OnMapReadyCallback {
@@ -57,6 +52,7 @@ public class Fragment_main_magnifier extends Fragment implements OnMapReadyCallb
 
     List<DTO_magnifier> listDTO;
     magnifier_service API;
+    ProgressDialog loadingDialog;
 
     //double lat, lng;
     double nowLat, nowLng;
@@ -68,6 +64,8 @@ public class Fragment_main_magnifier extends Fragment implements OnMapReadyCallb
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main_magnifier, container, false);
         Log.i(TAG, "onCreateView");
+
+        loadingDialog = ProgressDialog.show(getContext(), "지도 설정 중 ...", "Please Wait...", true, false);
 
         // 지도 객체 설정
         mapView = new MapView(this.getActivity());
@@ -81,6 +79,7 @@ public class Fragment_main_magnifier extends Fragment implements OnMapReadyCallb
         // refresh 버튼 설정
         btn = (Button) view.findViewById(R.id.main_magnifier_refreshBtn);
         btn.setOnClickListener(v -> {
+            loadingDialog = ProgressDialog.show(getContext(), "지도 설정 중 ...", "Please Wait...", true, false);
             setMarkers(); // 마커표시 다시하기
             btn.setVisibility(btn.INVISIBLE); // 버튼 숨김
         });
@@ -226,6 +225,9 @@ public class Fragment_main_magnifier extends Fragment implements OnMapReadyCallb
                         googleMap.addMarker(marker);
                     }
 
+                    googleMap.setOnInfoWindowClickListener(infoWindowClickListener);
+
+                    loadingDialog.dismiss();
                 } else {
                     Log.i(TAG, "응답 실패");
                 }
@@ -237,4 +239,20 @@ public class Fragment_main_magnifier extends Fragment implements OnMapReadyCallb
             }
         });
     }
+    GoogleMap.OnInfoWindowClickListener infoWindowClickListener = new GoogleMap.OnInfoWindowClickListener() {
+        @Override
+        public void onInfoWindowClick(@NonNull Marker marker) {
+            String name = marker.getTitle();
+
+            for(int i=0; i<listDTO.size(); i++) {
+                DTO_magnifier dto = listDTO.get(i);
+                if(dto.getNm().equals(name)) {
+                    Intent intent = new Intent(getContext(), Activity_DetailPage.class);
+                    intent.putExtra("seq", dto.getSeq());
+                    startActivity(intent);
+                    break;
+                }
+            }
+        }
+    };
 }
