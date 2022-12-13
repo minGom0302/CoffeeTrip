@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_upload_page_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -21,11 +22,11 @@
         android:layout_height="match_parent">
         <TextView
             android:id="@+id/textView"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Admin Page (Image Upload)"
-            android:textSize="50dp"
+            android:textSize="30dp"
             android:textColor="#000000" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -35,71 +36,87 @@
             android:layout_marginTop="25dp"
             android:layout_below="@id/textView"/>
 
-        <TextView
-            android:layout_margin="15dp"
-            android:id="@+id/spinnerValue"
+        <LinearLayout
+            android:id="@+id/selectLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="스피너 선택값"
-            android:textSize="18sp"
-            android:textColor="#000000"
-            android:gravity="center"
-            android:layout_below="@id/recyclerView"/>
+            android:orientation="horizontal"
+            android:layout_below="@id/recyclerView">
+            <TextView
+                android:id="@+id/selectValueTv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:layout_marginBottom="5dp"
+                android:gravity="center"
+                android:text="스피너 선택값"
+                android:textColor="#000000"
+                android:textSize="16sp" />
 
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/spinnerValue"/>
+            <Button
+                android:id="@+id/selectBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="업체 선택하기" />
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/LinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
             android:orientation="horizontal"
-            android:layout_below="@id/spinner">
+            android:layout_below="@id/selectLayout">
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:orientation="vertical">
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:gravity="center_vertical"
                     android:text="메뉴 이름 : "
                     android:textColor="#000000"/>
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:gravity="center_vertical"
                     android:text="메뉴 가격 : "
                     android:textColor="#000000"/>
             </LinearLayout>
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="4"
                 android:orientation="vertical">
                 <EditText
                     android:id="@+id/menuName"
-                    android:layout_width="280dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text"/>
+                    android:inputType="text"
+                    android:nextFocusDown="@id/menuPrice"/>
                 <EditText
                     android:id="@+id/menuPrice"
-                    android:layout_width="280dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
                     android:hint="원과 콤마 빼고 입력"/>
             </LinearLayout>
-            <Button
-                android:id="@+id/menuUploadBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="메뉴 up"/>
         </LinearLayout>
 
+
+        <Button
+            android:id="@+id/choiceBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/layoutBtn"
+            android:layout_marginHorizontal="100dp"
+            android:text="사진선택"/>
+
         <LinearLayout
-            android:layout_marginTop="30dp"
+            android:id="@+id/layoutBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
@@ -107,46 +124,65 @@
             android:gravity="center"
             android:layout_alignParentBottom="true">
             <Button
-                android:id="@+id/choiceBtn"
+                android:id="@+id/menuUploadBtn"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:text="choice"/>
+                android:layout_height="match_parent"
+                android:text="메뉴 업로드"/>
             <Button
                 android:id="@+id/title_uploadBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:text="title uplaod"/>
+                android:text="타이틀 업로드"/>
             <Button
                 android:id="@+id/uploadBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="upload" />
+                android:text="업체용 업로드" />
         </LinearLayout>
-        <LinearLayout
+        <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_below="@id/LinearLayout"
-            android:gravity="center">
-            <CheckBox
-                android:id="@+id/checkBox1"
-                android:layout_width="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/rb1"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="30dp"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="3dp"
+                android:gravity="center"
                 android:text="커피"
                 android:textSize="18sp" />
-            <CheckBox
-                android:id="@+id/checkBox2"
-                android:layout_width="wrap_content"
+            <RadioButton
+                android:id="@+id/rb2"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="3dp"
+                android:gravity="center"
+                android:text="논커피"
+                android:textSize="18sp" />
+            <RadioButton
+                android:id="@+id/rb3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="3dp"
+                android:gravity="center"
+                android:text="티"
+                android:textSize="18sp" />
+            <RadioButton
+                android:id="@+id/rb4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="3dp"
+                android:gravity="center"
                 android:text="디저트"
                 android:textSize="18sp" />
-        </LinearLayout>
-
+        </RadioGroup>
     </RelativeLayout>
 
 </FrameLayout>

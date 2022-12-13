@@ -56,7 +56,7 @@ public class adapter_detail_menu extends RecyclerView.Adapter<adapter_detail_men
         holder.menuNm.setText(menu.menuName);
         holder.price.setText(menu.menuPrice + "원");
 
-        if(menu.imagePath == null) {
+        if(menu.imagePath.length() < 1) {
             holder.image.setImageResource(R.drawable.som1);
         } else {
             String url = "http://119.148.144.244:9172/image/menu/";

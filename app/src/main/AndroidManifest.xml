@@ -39,7 +39,8 @@
         </activity>
         <activity
             android:name=".Activity_UploadPage"
-            android:exported="false">
+            android:exported="false"
+            android:windowSoftInputMode="adjustUnspecified|adjustPan">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -73,7 +74,7 @@
         <activity
             android:name=".Activity_Login"
             android:exported="true"
-            android:windowSoftInputMode="adjustUnspecified|adjustPan">
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

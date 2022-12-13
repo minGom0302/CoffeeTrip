@@ -9,9 +9,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.coffeetrip.DTO.DTO_userInfo;
@@ -33,6 +36,7 @@ public class Activity_Login extends AppCompatActivity {
     Button signUpBtn, loginBtn, pwFindBtn, uploadPageBtn;
     EditText idEt, pwEt;
     CheckBox saveIdCb, autoLoginCb;
+    LinearLayout linearLayout;
 
     backspaceHandler bsHandler = new backspaceHandler(this);
     useItem item = new useItem();
@@ -59,6 +63,7 @@ public class Activity_Login extends AppCompatActivity {
         // API 설정
         userAPI = useItem.getRetrofit().create(userInfo_service.class);
 
+        linearLayout = (LinearLayout) findViewById(R.id.activity_login_layout);
         idEt = (EditText) findViewById(R.id.login_idEt);
         pwEt = (EditText) findViewById(R.id.login_pwEt);
         loginBtn = (Button) findViewById(R.id.login_loginBtn);
@@ -67,6 +72,14 @@ public class Activity_Login extends AppCompatActivity {
         uploadPageBtn = (Button) findViewById(R.id.uploadPageBtn);
         saveIdCb = (CheckBox) findViewById(R.id.login_saveId);
         autoLoginCb = (CheckBox) findViewById(R.id.login_autoLogin);
+
+        linearLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                useItem.editTextHide(Activity_Login.this);
+                return false;
+            }
+        });
 
         loginBtn.setOnClickListener(v -> {
             String id = idEt.getText().toString();

@@ -1,37 +1,37 @@
 package com.example.coffeetrip;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.loader.content.CursorLoader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.ClipData;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.coffeetrip.Adapter.adapter_multi_image;
-import com.example.coffeetrip.Adapter.adapter_spinner;
 import com.example.coffeetrip.DTO.DTO_home_coffee;
 import com.example.coffeetrip.Interface.home_coffee_service;
 import com.example.coffeetrip.use.useItem;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -48,34 +48,36 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Activity_UploadPage extends AppCompatActivity {
     // 이미지의 uri를 담을 ArrayList 객체
     ArrayList<Uri> uriList = new ArrayList<>();
+
     // MultipartBody.Part를 담을 ArrayList 객체
     ArrayList<MultipartBody.Part> bodyList = new ArrayList<>();
+
     // 이미지를 보여줄 리사이클러뷰
     RecyclerView recyclerView;
+
     // 리사이클러뷰에 적용시킬 어댑터
     adapter_multi_image adapter;
     home_coffee_service coffeeAPI;
-    // Spinner 사용을 위한 아답터
-    adapter_spinner adapterSpinner;
-    Spinner spinner;
-    // sipnner에서 선택한 값을 저장할 변수
-    String selectedItem;
-    int selectedSeq;
-    // 이름과 seq를 저장할 리스트
-    List<String> spinnerList = new ArrayList<>();
-    List<Integer> spinnerSeqList = new ArrayList<>();
 
-    TextView spinnerValueTv;
+    // 이름과 seq를 저장할 리스트
+    List<String> stringList = new ArrayList<>();
+    List<Integer> intList = new ArrayList<>();
+    List<DTO_home_coffee> listDto;
+    String shopNm, name, price;
+    int shopSeq;
+
+    Button selectBtn;
+    TextView selectValueTv;
     ImageView imageView;
+    FrameLayout frameLayout;
     RelativeLayout relativeLayout;
     EditText menuName, menuPrice;
-    CheckBox checkBox1, checkBox2;
+    RadioButton rb1, rb2, rb3, rb4;
+    ProgressDialog loadingDialog;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -83,15 +85,20 @@ public class Activity_UploadPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_page);
 
-        spinnerValueTv = (TextView) findViewById(R.id.spinnerValue);
-        spinner = (Spinner) findViewById(R.id.spinner);
+        loadingDialog = ProgressDialog.show(Activity_UploadPage.this, "로딩중 ...", "Please Wait...", true, false);
+
+        selectBtn = (Button) findViewById(R.id.selectBtn);
+        selectValueTv = (TextView) findViewById(R.id.selectValueTv);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         imageView = (ImageView) findViewById(R.id.loadingImage);
+        frameLayout = (FrameLayout) findViewById(R.id.activity_upload_page_layout);
         relativeLayout = (RelativeLayout) findViewById(R.id.loadingPage);
         menuName = (EditText) findViewById(R.id.menuName);
         menuPrice = (EditText) findViewById(R.id.menuPrice);
-        checkBox1 = (CheckBox) findViewById(R.id.checkBox1);
-        checkBox2 = (CheckBox) findViewById(R.id.checkBox2);
+        rb1 = (RadioButton) findViewById(R.id.rb1);
+        rb2 = (RadioButton) findViewById(R.id.rb2);
+        rb3 = (RadioButton) findViewById(R.id.rb3);
+        rb4 = (RadioButton) findViewById(R.id.rb4);
 
         // service(API) 만들기
         coffeeAPI = useItem.getRetrofit().create(home_coffee_service.class);
@@ -101,43 +108,52 @@ public class Activity_UploadPage extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<DTO_home_coffee>> call, Response<List<DTO_home_coffee>> response) {
                 if(response.isSuccessful()) {
-                    List<DTO_home_coffee> listDto = response.body();
-                    // 스피너 속 값들 설정
+                    listDto = response.body();
+                    // 리스트 중 값들 설정
                     for (DTO_home_coffee dto : listDto) {
-                        spinnerList.add(dto.getNm());
-                        spinnerSeqList.add(dto.getSeq());
+                        stringList.add(dto.getNm());
+                        intList.add(dto.getSeq());
                     }
 
-                    // 스피너 셋팅
-                    adapterSpinner = new adapter_spinner(getApplicationContext(), spinnerList);
-                    spinner.setAdapter(adapterSpinner);
+                    selectBtn.setOnClickListener(v -> {
+                        useItem.editTextHide(Activity_UploadPage.this);
 
-                    // 스피너 값 선택 이벤트
-                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            // 어댑터에서 정의한 메서드를 통해 스피너에서 선택한 아이템의 이름을 받아온다.
-                            selectedItem = (String) adapterSpinner.getItem(position);
-                            selectedSeq = spinnerSeqList.get(position);
-                            spinnerValueTv.setText(selectedItem + " & seq 값은 : " + selectedSeq);
-                        }
+                        String[] strArray = stringList.toArray(new String[stringList.size()]);
+                        Integer[] intArray = intList.toArray(new Integer[intList.size()]);
 
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(Activity_UploadPage.this);
+                        builder.setTitle("카페 선택");
+                        builder.setItems(strArray, new DialogInterface.OnClickListener() {
+                            @SuppressLint("SetTextI18n")
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                shopNm = strArray[which];
+                                shopSeq = intArray[which];
+                                selectValueTv.setText("cafe : " + shopNm + " / seq : " + shopSeq);
+                                dialog.dismiss();
+                            }
+                        });
 
-                        }
+                        AlertDialog alertDialog = builder.create();
+                        alertDialog.show();
                     });
+
+                    loadingDialog.dismiss();
                 }
             }
-
             @Override
             public void onFailure(Call<List<DTO_home_coffee>> call, Throwable t) {
 
             }
         });
 
-
-
+        frameLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                useItem.editTextHide(Activity_UploadPage.this);
+                return false;
+            }
+        });
 
         // 앨범으로 이동 > 커스텀 갤러리 만들기는 나중에
         Button choiceBtn = (Button) findViewById(R.id.choiceBtn);
@@ -152,19 +168,41 @@ public class Activity_UploadPage extends AppCompatActivity {
         // 사진 타이틀 폴더로 올리기
         Button titleUploadBtn = (Button) findViewById(R.id.title_uploadBtn);
         titleUploadBtn.setOnClickListener(v -> {
-            uploadImage("0");
+            if(uriList.isEmpty()) {
+                Toast.makeText(this, "사진을 선택하고 업로드해주세요.", Toast.LENGTH_SHORT).show();
+            } else if(shopNm == null) {
+                Toast.makeText(this, "카페를 선택해주세요.", Toast.LENGTH_SHORT).show();
+            } else {
+                uploadImage("0");
+            }
         });
 
         // 선택한 사진 서버로 올리기
         Button uploadBtn = (Button) findViewById(R.id.uploadBtn);
         uploadBtn.setOnClickListener(v -> {
-            uploadImage("1");
+            if(uriList.isEmpty()) {
+                Toast.makeText(this, "사진을 선택하고 업로드해주세요.", Toast.LENGTH_SHORT).show();
+            } else if(shopNm == null) {
+                Toast.makeText(this, "카페를 선택해주세요.", Toast.LENGTH_SHORT).show();
+            } else {
+                uploadImage("1");
+            }
         });
 
         // 메뉴 업로드
         Button menuUploadBtn = (Button) findViewById(R.id.menuUploadBtn);
         menuUploadBtn.setOnClickListener(v -> {
-            uploadImage("2");
+            name = menuName.getText().toString();
+            price = menuPrice.getText().toString();
+            if(name.isEmpty() || price.isEmpty()) {
+                Toast.makeText(this, "메뉴 이름 혹은 가격을 적어주세요.", Toast.LENGTH_SHORT).show();
+            } else if(!rb1.isChecked() && !rb2.isChecked() && !rb3.isChecked() && !rb4.isChecked()) {
+                Toast.makeText(this, "메뉴 종류를 선택해주세요.", Toast.LENGTH_SHORT).show();
+            } else if(shopNm == null) {
+                Toast.makeText(this, "카페를 선택해주세요.", Toast.LENGTH_SHORT).show();
+            } else {
+                uploadImage("2");
+            }
         });
     }
 
@@ -237,7 +275,7 @@ public class Activity_UploadPage extends AppCompatActivity {
 
         // 같이 보낼 데이터 준비
         String uploader = "admin"; // 저장하는 사람
-        String seq = String.valueOf(selectedSeq); // 선택한 번호 (이미지와 카페 연결)
+        String seq = String.valueOf(shopSeq); // 선택한 번호 (이미지와 카페 연결)
 
         for(Uri uri : uriList) {
             // 날짜 데이터 생성
@@ -258,8 +296,6 @@ public class Activity_UploadPage extends AppCompatActivity {
 
         try {
             if(condition == "2") {
-                String name = menuName.getText().toString();
-                String price = menuPrice.getText().toString();
                 DecimalFormat decimalFormat = new DecimalFormat("#,###");
                 int i = Integer.parseInt(price);
                 price = decimalFormat.format(i);
@@ -269,10 +305,14 @@ public class Activity_UploadPage extends AppCompatActivity {
                 map.put("menuName", name);
                 map.put("menuPrice", price);
 
-                if(checkBox1.isChecked()) {
+                if(rb1.isChecked()) {
                     map.put("type", "0");
-                } else if (checkBox2.isChecked()) {
+                } else if (rb2.isChecked()) {
                     map.put("type", "1");
+                } else if (rb3.isChecked()) {
+                    map.put("type", "2");
+                } else if (rb4.isChecked()) {
+                    map.put("type", "3");
                 }
 
                 coffeeAPI.uploadMenuFiles(bodyList, map).enqueue(new Callback<String>() {
@@ -316,9 +356,12 @@ public class Activity_UploadPage extends AppCompatActivity {
     private void uploadResponse(int num) {
         imageView.setVisibility(View.INVISIBLE);
         relativeLayout.setVisibility(View.VISIBLE);
+
         uriList.clear();
         bodyList.clear();
-        adapter.notifyDataSetChanged();
+        if(adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
 
         switch (num) {
             case 0 :

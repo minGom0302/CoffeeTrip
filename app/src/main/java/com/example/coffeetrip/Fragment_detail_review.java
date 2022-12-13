@@ -18,10 +18,12 @@ import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -53,6 +55,7 @@ public class Fragment_detail_review extends Fragment {
     Button onOffBtn, imageChoiceBtn, submitBtn;
     TextView nickNameTv, ratingTv, imageYN;
     EditText reviewEt;
+    FrameLayout frameLayout;
     LinearLayout reviewLayout;
     RecyclerView reviewRecyclerView;
     RatingBar ratingBar;
@@ -87,8 +90,10 @@ public class Fragment_detail_review extends Fragment {
         reviewEt = (EditText) view.findViewById(R.id.detail_review_reviewEt);
         ratingBar = (RatingBar) view.findViewById(R.id.detail_review_ratingbar);
         thumbnail = (ImageView) view.findViewById(R.id.detail_review_thumbnail);
+        frameLayout = (FrameLayout) view.findViewById(R.id.fragment_detail_review_layout);
         reviewLayout = (LinearLayout) view.findViewById(R.id.detail_review_reviewLayout);
         reviewRecyclerView = (RecyclerView) view.findViewById(R.id.detail_review_recyclerView);
+
         reviewAPI = useItem.getRetrofit().create(home_coffee_service.class);
 
         userId = sp.getString("id", null);
@@ -98,12 +103,21 @@ public class Fragment_detail_review extends Fragment {
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                useItem.editTextHide(getActivity());
                 // 1로 나눴을 때 나머지를 구해서 정수면 int 타입으로 바꿔서 .0 없애고 표기 실수면 소수점 그대로 표기
                 if(rating % 1 == 0) {
                     ratingTv.setText(String.valueOf((int) rating));
                 } else {
                     ratingTv.setText(String.valueOf(rating));
                 }
+            }
+        });
+
+        frameLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                useItem.editTextHide(getActivity());
+                return false;
             }
         });
 
