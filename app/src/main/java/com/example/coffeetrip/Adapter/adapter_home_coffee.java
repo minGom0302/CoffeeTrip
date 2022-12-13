@@ -101,10 +101,10 @@ public class adapter_home_coffee extends RecyclerView.Adapter<adapter_home_coffe
         holder.favoriteCount.setText("좋아요 : " + useItem.createComma(item.favorite));
 
         String url = "http://119.148.144.244:9172/image/title/";
-        if(item.getFileName() == null) {
+        if(item.getImageName() == null) {
             holder.image.setImageResource(R.drawable.icon_cafe);
         } else {
-            Glide.with(context).load(url+item.getFileName()).into(holder.image);
+            Glide.with(context).load(url+item.getImageName()).into(holder.image);
         }
     }
 

@@ -17,8 +17,8 @@ public class DTO_home_coffee {
     public String tel;
     @SerializedName("favorite")
     public int favorite;
-    @SerializedName("fileName")
-    public String fileName;
+    @SerializedName("imageName")
+    public String imageName;
     @SerializedName("lat")
     public double lat;
     @SerializedName("lng")
@@ -28,7 +28,7 @@ public class DTO_home_coffee {
     @SerializedName("rating")
     public float rating;
 
-    public DTO_home_coffee(int seq, String nm, String loca, String gu, String address, String tel, int favorite, String fileName) {
+    public DTO_home_coffee(int seq, String nm, String loca, String gu, String address, String tel, int favorite, String imageName) {
         this.seq = seq;
         this.nm = nm;
         this.loca = loca;
@@ -36,7 +36,7 @@ public class DTO_home_coffee {
         this.address = address;
         this.tel = tel;
         this.favorite = favorite;
-        this.fileName = fileName;
+        this.imageName = imageName;
     }
 
     public DTO_home_coffee(int seq, String nm, String loca, String gu, String address, String tel, int favorite, double lat, double lng, boolean favoriteYN, float rating) {
@@ -53,12 +53,12 @@ public class DTO_home_coffee {
         this.rating = rating;
     }
 
-    public DTO_home_coffee(int seq, String nm, String address, float rating, String fileName) {
+    public DTO_home_coffee(int seq, String nm, String address, float rating, String imageName) {
         this.seq = seq;
         this.nm = nm;
         this.address = address;
         this.rating = rating;
-        this.fileName = fileName;
+        this.imageName = imageName;
     }
 
     public int getSeq() { return seq; }
@@ -68,6 +68,6 @@ public class DTO_home_coffee {
     public String getAddress() { return address; }
     public String getTel() { return tel; }
     public int getFavorite() { return favorite; }
-    public String getFileName() { return fileName; }
+    public String getImageName() { return imageName; }
     public float getRating() { return rating; }
 }

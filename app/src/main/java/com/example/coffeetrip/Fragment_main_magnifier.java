@@ -249,6 +249,7 @@ public class Fragment_main_magnifier extends Fragment implements OnMapReadyCallb
                 if(dto.getNm().equals(name)) {
                     Intent intent = new Intent(getContext(), Activity_DetailPage.class);
                     intent.putExtra("seq", dto.getSeq());
+                    intent.putExtra("name", dto.getNm());
                     startActivity(intent);
                     break;
                 }

@@ -21,6 +21,10 @@ public class DTO_detail_review {
     public float rating;
     @SerializedName("date")
     public String date;
+    @SerializedName("uploader")
+    public String uploader;
+    @SerializedName("type")
+    public int type;
 
     public DTO_detail_review(int seq, int shopSeq, String userId, String nickName, String review, String imagePath, String imageName, float rating, String date) {
         this.seq = seq;
@@ -32,6 +36,19 @@ public class DTO_detail_review {
         this.imageName = imageName;
         this.rating = rating;
         this.date = date;
+    }
+
+    public DTO_detail_review(int seq, String imageName, String imagePath, String uploader, int shopSeq, int type, String nickName, String review, String date, String userId) {
+        this.seq = seq;
+        this.imageName = imageName;
+        this.imagePath = imagePath;
+        this.uploader = uploader;
+        this.shopSeq = shopSeq;
+        this.type = type;
+        this.nickName = nickName;
+        this.review = review;
+        this.date = date;
+        this.userId = userId;
     }
 
     public int getSeq() {

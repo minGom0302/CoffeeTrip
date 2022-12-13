@@ -93,15 +93,16 @@ public class adapter_main_favorite extends RecyclerView.Adapter<adapter_main_fav
         holder.address.setText(item.getAddress());
         holder.ratingBar.setRating(item.getRating());
 
-        if(item.getFileName() == null) {
+        if(item.getImageName() == null) {
             holder.imageView.setImageResource(R.drawable.icon_cafe);
         } else {
-            Glide.with(context).load(url+item.getFileName()).into(holder.imageView);
+            Glide.with(context).load(url+item.getImageName()).into(holder.imageView);
         }
 
         holder.linearLayout.setOnClickListener(v -> {
             Intent intent = new Intent(context, Activity_DetailPage.class);
             intent.putExtra("seq", item.getSeq());
+            intent.putExtra("name", item.getNm());
             context.startActivity(intent);
         });
     }

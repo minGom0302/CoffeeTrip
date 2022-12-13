@@ -169,6 +169,7 @@ public class Fragment_main_home extends Fragment implements SwipeRefreshLayout.O
         if(num == 0) {
             Intent intent = new Intent(getContext(), Activity_DetailPage.class);
             intent.putExtra("seq", dto.seq);
+            intent.putExtra("name", dto.getNm());
             startActivity(intent);
         }
     }

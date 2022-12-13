@@ -15,12 +15,15 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+
+import java.util.Objects;
 
 public class Activity_ImageView extends AppCompatActivity {
     ImageView imageView;
@@ -52,8 +55,9 @@ public class Activity_ImageView extends AppCompatActivity {
         review = intent.getStringExtra("review");
         date = intent.getStringExtra("date");
 
+        // setText 에서 \n 을 인식하지 못하고 표기가 되기 때문에 replace 를 사용해서 라인 변경을 해준다.
+        reviewTv.setText(review.replace("\\n", Objects.requireNonNull(System.getProperty("line.separator"))));
         nickNameTv.setText(nickName);
-        reviewTv.setText(review);
         dateTv.setText(date);
         Glide.with(this).load(url + imageName).into(imageView);
 

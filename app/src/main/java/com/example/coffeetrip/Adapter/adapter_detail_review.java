@@ -22,6 +22,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class adapter_detail_review extends RecyclerView.Adapter<adapter_detail_review.MyViewHolder> {
     List<DTO_detail_review> reviewList;
@@ -76,8 +77,9 @@ public class adapter_detail_review extends RecyclerView.Adapter<adapter_detail_r
         }
         String date = output.format(dt);
 
+        // setText 에서 \n 을 인식하지 못하고 표기가 되기 때문에 replace 를 사용해서 라인 변경을 해준다.
+        holder.review.setText(reviewDTO.getReview().replace("\\n", Objects.requireNonNull(System.getProperty("line.separator"))));
         holder.nickName.setText(reviewDTO.getNickName());
-        holder.review.setText(reviewDTO.getReview());
         holder.date.setText(date);
         holder.ratingBar.setRating(reviewDTO.getRating());
 
@@ -86,7 +88,7 @@ public class adapter_detail_review extends RecyclerView.Adapter<adapter_detail_r
         } else {
             holder.rating.setText(String.valueOf(reviewDTO.getRating()));
         }
-        Log.i("imageName", reviewDTO.getImageName());
+
         if(!reviewDTO.getImageName().isEmpty()) {
             String url = "http://119.148.144.244:9172/image/image/";
             Glide.with(context).load(url + reviewDTO.getImageName()).into(holder.imageView);

@@ -25,6 +25,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Fragment_detail_image extends Fragment {
+    String shopNm;
     String TAG = "fragment_detail_image";
     RecyclerView recyclerView;
     adapter_detail_image adapterDetailImage;
@@ -38,7 +39,7 @@ public class Fragment_detail_image extends Fragment {
 
         Intent intent = getActivity().getIntent();
         int seq = intent.getIntExtra("seq", 0);
-        Log.i(TAG, String.valueOf(seq));
+        shopNm = intent.getStringExtra("name");
 
         recyclerView = (RecyclerView) view.findViewById(R.id.detail_image_recyclerView);
         coffeeAPI = useItem.getRetrofit().create(home_coffee_service.class);
@@ -53,12 +54,8 @@ public class Fragment_detail_image extends Fragment {
             public void onResponse(Call<List<DTO_detail_review>> call, Response<List<DTO_detail_review>> response) {
                 if(response.isSuccessful()) {
                     List<DTO_detail_review> imageList = response.body();
-                    for(DTO_detail_review i : imageList) {
-                        Log.i(TAG, "여기부터 / "+i.getImageName());
-                    }
-                    //recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
                     recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-                    adapterDetailImage = new adapter_detail_image(imageList);
+                    adapterDetailImage = new adapter_detail_image(imageList, shopNm);
                     recyclerView.setAdapter(adapterDetailImage);
 
                 }
