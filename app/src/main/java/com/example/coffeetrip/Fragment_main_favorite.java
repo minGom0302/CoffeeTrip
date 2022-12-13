@@ -110,6 +110,7 @@ public class Fragment_main_favorite extends Fragment implements SwipeRefreshLayo
 
     @Override
     public void onRefresh() {
+        recentlyCount = 0;
         setRecyclerView();
         swipeRefreshLayout.setRefreshing(false);
     }
