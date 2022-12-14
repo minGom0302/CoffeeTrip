@@ -16,6 +16,7 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.coffeetrip.Adapter.adapter_main_favorite;
@@ -37,6 +38,7 @@ public class Fragment_main_favorite extends Fragment implements SwipeRefreshLayo
     SharedPreferences sp;
     SwipeRefreshLayout swipeRefreshLayout;
     ProgressDialog loadingDialog;
+    TextView memoTv;
 
     String id;
     int recentlyCount = 0;
@@ -50,6 +52,7 @@ public class Fragment_main_favorite extends Fragment implements SwipeRefreshLayo
         sp = PreferenceManager.getDefaultSharedPreferences(getContext());
         id = sp.getString("id", null);
         API = useItem.getRetrofit().create(home_coffee_service.class);
+        memoTv = (TextView) view.findViewById(R.id.main_favorite_memoTv);
         favoriteRecyclerView = (RecyclerView) view.findViewById(R.id.main_favorite_recyclerView);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.main_favorite_swipeLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -71,6 +74,12 @@ public class Fragment_main_favorite extends Fragment implements SwipeRefreshLayo
             public void onResponse(Call<List<DTO_home_coffee>> call, Response<List<DTO_home_coffee>> response) {
                 if(response.isSuccessful()) {
                     List<DTO_home_coffee> dtoList = response.body();
+
+                    if(dtoList.size() > 0) {
+                        memoTv.setVisibility(View.INVISIBLE);
+                    } else {
+                        memoTv.setVisibility(View.VISIBLE);
+                    }
 
                     if(recentlyCount != dtoList.size()) {
                         favoriteAdapter = new adapter_main_favorite(dtoList, id);

@@ -195,7 +195,10 @@ public class Fragment_detail_review extends Fragment {
         String strNowDate = simpleDateFormat.format(nowDate);
 
         // 같이 보낼 데이터 준비
-        String review = String.valueOf(reviewEt.getText());
+        String review = reviewEt.getText().toString();
+        if(review == null) {
+            review = "";
+        }
         String rating = String.valueOf(ratingTv.getText());
         String shopSeq = String.valueOf(seq);
         Map<String, String> reviewMap = new HashMap<>();

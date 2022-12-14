@@ -17,4 +17,14 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+    <TextView
+        android:id="@+id/main_favorite_memoTv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="좋아요 항목이 없습니다\nㅠㅠ"
+        android:textSize="35sp"
+        android:textColor="#BC7F7B"
+        android:gravity="center"
+        android:visibility="invisible"/>
+
 </FrameLayout>
