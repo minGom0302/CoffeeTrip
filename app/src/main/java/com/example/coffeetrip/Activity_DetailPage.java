@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -48,6 +49,7 @@ public class Activity_DetailPage extends AppCompatActivity implements OnMapReady
     ImageView menuLine, imageLine, reviewLine;
     RatingBar ratingBar;
     AppBarLayout appBarLayout;
+    ProgressDialog loadingDialog;
 
     GoogleMap mMap;
     double nowLat, nowLng;
@@ -66,6 +68,8 @@ public class Activity_DetailPage extends AppCompatActivity implements OnMapReady
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_page);
+
+        loadingDialog =  ProgressDialog.show(Activity_DetailPage.this, "로딩중 ...", "Please Wait...", true, false);
 
         // 핸드폰 내부에 저장된 것 꺼내오기
         sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -136,6 +140,8 @@ public class Activity_DetailPage extends AppCompatActivity implements OnMapReady
                     }
                     ratingBar.setRating((float) data.rating);
                     getSupportActionBar().setTitle(data.nm);
+
+                    loadingDialog.dismiss();
                 }
 
             }

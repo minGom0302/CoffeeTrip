@@ -1,6 +1,7 @@
 package com.example.coffeetrip;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -30,12 +31,15 @@ public class Fragment_detail_image extends Fragment {
     RecyclerView recyclerView;
     adapter_detail_image adapterDetailImage;
     home_coffee_service coffeeAPI;
+    ProgressDialog loadingDialog;
 
     @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail_image, container, false);
+
+        loadingDialog = ProgressDialog.show(getContext(), "로딩중 ...", "Please Wait...", true, false);
 
         Intent intent = getActivity().getIntent();
         int seq = intent.getIntExtra("seq", 0);
@@ -45,6 +49,9 @@ public class Fragment_detail_image extends Fragment {
         coffeeAPI = useItem.getRetrofit().create(home_coffee_service.class);
 
         getImage(seq);
+
+        loadingDialog.dismiss();
+
         return view;
     }
 

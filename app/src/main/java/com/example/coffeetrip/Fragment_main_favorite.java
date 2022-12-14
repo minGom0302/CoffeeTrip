@@ -1,7 +1,9 @@
 package com.example.coffeetrip;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -77,21 +79,40 @@ public class Fragment_main_favorite extends Fragment implements SwipeRefreshLayo
                         favoriteAdapter.setOnItemClickListener(new adapter_main_favorite.OnItemClickListener() {
                             @Override
                             public void onItemClick(View view, int position, DTO_home_coffee dto) {
-                                loadingDialog = ProgressDialog.show(getContext(), "즐겨찾기 삭제중 ...", "Please Wait...", true, false);
-                                home_coffee_service API = useItem.getRetrofit().create(home_coffee_service.class);
-                                API.minusFavorite(dto.getSeq(), id).enqueue(new Callback<Void>() {
+                                // 질문창 띄우기
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                builder.setTitle("좋아요 해제").setMessage("해당 카페의 좋아요를 취소하시겠습니까?\n취소하면 해당 목록에서 사라집니다.");
+                                builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
                                     @Override
-                                    public void onResponse(Call<Void> call, Response<Void> response) {
-                                        Toast.makeText(getContext(), "좋아요 / 즐겨찾기를 삭제했습니다.", Toast.LENGTH_SHORT).show();
-                                        setRecyclerView();
-                                        loadingDialog.dismiss();
-                                    }
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // 즐겨찾기 삭제
+                                        loadingDialog = ProgressDialog.show(getContext(), "즐겨찾기 삭제중 ...", "Please Wait...", true, false);
+                                        home_coffee_service API = useItem.getRetrofit().create(home_coffee_service.class);
+                                        API.minusFavorite(dto.getSeq(), id).enqueue(new Callback<Void>() {
+                                            @Override
+                                            public void onResponse(Call<Void> call, Response<Void> response) {
+                                                Toast.makeText(getContext(), "좋아요 / 즐겨찾기를 삭제했습니다.", Toast.LENGTH_SHORT).show();
+                                                setRecyclerView();
+                                                loadingDialog.dismiss();
+                                            }
 
-                                    @Override
-                                    public void onFailure(Call<Void> call, Throwable t) {
+                                            @Override
+                                            public void onFailure(Call<Void> call, Throwable t) {
 
+                                            }
+                                        });
                                     }
                                 });
+
+                                builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        return;
+                                    }
+                                });
+
+                                AlertDialog alertDialog = builder.create();
+                                alertDialog.show();
                             }
                         });
 

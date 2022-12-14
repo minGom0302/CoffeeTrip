@@ -91,7 +91,7 @@ public class adapter_detail_review extends RecyclerView.Adapter<adapter_detail_r
 
         if(!reviewDTO.getImageName().isEmpty()) {
             String url = "http://119.148.144.244:9172/image/image/";
-            Glide.with(context).load(url + reviewDTO.getImageName()).into(holder.imageView);
+            Glide.with(context).load(url + reviewDTO.getImageName()).placeholder(R.drawable.som1).into(holder.imageView);
 
             holder.imageView.setOnClickListener(v -> {
                 Intent intent = new Intent(context, Activity_ImageView.class);

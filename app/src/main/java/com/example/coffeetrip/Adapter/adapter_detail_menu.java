@@ -57,10 +57,10 @@ public class adapter_detail_menu extends RecyclerView.Adapter<adapter_detail_men
         holder.price.setText(menu.menuPrice + "원");
 
         if(menu.imagePath.length() < 1) {
-            holder.image.setImageResource(R.drawable.som1);
+            holder.image.setImageResource(R.drawable.icon_cafe);
         } else {
             String url = "http://119.148.144.244:9172/image/menu/";
-            Glide.with(context).load(url+menu.getImageName()).into(holder.image);
+            Glide.with(context).load(url+menu.getImageName()).placeholder(R.drawable.som1).into(holder.image);
         }
     }
 

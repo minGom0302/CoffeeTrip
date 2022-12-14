@@ -133,12 +133,14 @@ public class Activity_Login extends AppCompatActivity {
                     dto = response.body();
                     implementLogin();
                 } else {
+                    loadingDialog.dismiss();
                     item.toastMsg(getApplicationContext(), "아이디 혹은 비밀번호를 확인하세요.");
                 }
             }
 
             @Override
             public void onFailure(Call<DTO_userInfo> call, Throwable t) {
+                loadingDialog.dismiss();
                 item.toastMsg(getApplicationContext(), "아이디 혹은 비밀번호를 확인하세요.");
             }
         });

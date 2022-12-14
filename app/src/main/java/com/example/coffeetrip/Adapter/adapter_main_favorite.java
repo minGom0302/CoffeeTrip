@@ -96,7 +96,7 @@ public class adapter_main_favorite extends RecyclerView.Adapter<adapter_main_fav
         if(item.getImageName() == null) {
             holder.imageView.setImageResource(R.drawable.icon_cafe);
         } else {
-            Glide.with(context).load(url+item.getImageName()).into(holder.imageView);
+            Glide.with(context).load(url+item.getImageName()).placeholder(R.drawable.som1).into(holder.imageView);
         }
 
         holder.linearLayout.setOnClickListener(v -> {

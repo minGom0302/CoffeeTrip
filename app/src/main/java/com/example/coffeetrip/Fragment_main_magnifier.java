@@ -144,6 +144,7 @@ public class Fragment_main_magnifier extends Fragment implements OnMapReadyCallb
     @SuppressLint("MissingPermission")
     // 구글 맵 관련 모든 설정 메소드
     private void setGoogleMap() {
+        //클러스터 사용하여 구글맵 마커 묶기
         // 첫 화면을 서울 시청으로 설정
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(37.5665734, 126.978179), DEFAULT_ZOOM));
         // 객체 생성

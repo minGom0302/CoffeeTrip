@@ -104,7 +104,7 @@ public class adapter_home_coffee extends RecyclerView.Adapter<adapter_home_coffe
         if(item.getImageName() == null) {
             holder.image.setImageResource(R.drawable.icon_cafe);
         } else {
-            Glide.with(context).load(url+item.getImageName()).into(holder.image);
+            Glide.with(context).load(url+item.getImageName()).placeholder(R.drawable.som1).into(holder.image);
         }
     }
 

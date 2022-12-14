@@ -76,6 +76,8 @@ public class Fragment_detail_review extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail_review, container, false);
 
+        loadingDialog = ProgressDialog.show(getContext(), "로딩중 ...", "Please Wait...", true, false);
+
         Intent intent = getActivity().getIntent();
         seq = intent.getIntExtra("seq", 0);
 
@@ -145,6 +147,9 @@ public class Fragment_detail_review extends Fragment {
         });
 
         setRecyclerView(seq);
+
+        loadingDialog.dismiss();
+
         return view;
     }
 
