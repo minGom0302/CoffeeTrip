@@ -143,7 +143,7 @@
             android:id="@+id/login_pwFindBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="비밀번호찾기"
+            android:text="비밀번호 변경"
             android:textSize="16sp"
             android:textColor="#000000"
             android:background="#00ff0000"/>

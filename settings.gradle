@@ -11,9 +11,9 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         // add this
-        maven {
-            url 'https://naver.jfrog.io/artifactory/maven/'
-        }
+        maven { url 'https://naver.jfrog.io/artifactory/maven/' }
+        //img zoom-in zoom-out 을 위해 추가
+        maven { url 'https://jitpack.io' }
     }
 }
 rootProject.name = "CoffeeTrip"

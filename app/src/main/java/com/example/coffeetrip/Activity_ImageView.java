@@ -15,18 +15,17 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.github.chrisbanes.photoview.PhotoView;
 
 import java.util.Objects;
 
 public class Activity_ImageView extends AppCompatActivity {
-    ImageView imageView;
+    PhotoView photoView;
     TextView nickNameTv, reviewTv, dateTv;
 
     String[] items = {"사진 다운로드", "이미지 공유"};
@@ -44,7 +43,7 @@ public class Activity_ImageView extends AppCompatActivity {
         // 앱 바 없애기
         getSupportActionBar().hide();
 
-        imageView = (ImageView) findViewById(R.id.imageView_imageview);
+        photoView = (PhotoView) findViewById(R.id.imageView_photoView);
         nickNameTv = (TextView) findViewById(R.id.imageView_nickNameTv);
         dateTv = (TextView) findViewById(R.id.imageView_dateTv);
         reviewTv = (TextView) findViewById(R.id.imageView_reviewTv);
@@ -59,9 +58,9 @@ public class Activity_ImageView extends AppCompatActivity {
         reviewTv.setText(review.replace("\\n", Objects.requireNonNull(System.getProperty("line.separator"))));
         nickNameTv.setText(nickName);
         dateTv.setText(date);
-        Glide.with(this).load(url + imageName).into(imageView);
+        Glide.with(this).load(url + imageName).into(photoView);
 
-        imageView.setOnLongClickListener(new View.OnLongClickListener() {
+        photoView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 showList();
