@@ -1,20 +1,182 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    android:orientation="vertical"
     tools:context=".Activity_pwFind">
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        android:id="@+id/pwFind_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="SMS 인증"
+        android:textSize="30sp"
+        android:textColor="#000000"
+        android:gravity="center"/>
+
+    <LinearLayout
+        android:id="@+id/pwFind_smsAuth_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Password Find View"
-        android:textSize="80dp"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_marginTop="80dp"
+        android:layout_marginHorizontal="15dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="휴대폰 번호 입력"
+            android:textSize="18sp"
+            android:textColor="#000000"/>
+        <EditText
+            android:id="@+id/pwFind_phoneEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginHorizontal="10dp"
+            android:inputType="phone"
+            android:hint="핸드폰 번호를 - 없이 입력해주세요."/>
+        <Button
+            android:id="@+id/pwFind_requestBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginHorizontal="10dp"
+            android:text="인증번호 요청"/>
+
+        <LinearLayout
+            android:id="@+id/pwFind_numInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="invisible">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="100dp"
+                android:text="인증번호 입력"
+                android:textSize="18sp"
+                android:textColor="#000000"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/pwFind_authNumEt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:inputType="number"
+                    android:hint="인증번호를 입력해주세요."/>
+                <Button
+                    android:id="@+id/pwFind_moreRequestBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:text="재전송"
+                    android:enabled="false"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/pwFind_Tv01"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="인증번호가 전송되었습니다.  "
+                    android:textSize="13sp"
+                    android:textColor="#000000"/>
+                <TextView
+                    android:id="@+id/pwFind_timeTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="60"
+                    android:textSize="13sp"
+                    android:textColor="#FF0000"/>
+                <TextView
+                    android:id="@+id/pwFind_Tv02"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" 초 이내에 확인해주세요."
+                    android:textSize="13sp"
+                    android:textColor="#000000"/>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/pwFind_authCheckBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginHorizontal="10dp"
+                android:text="인증번호 확인"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/pwFind_changePw_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:layout_marginHorizontal="15dp"
+        android:orientation="vertical"
+        android:visibility="invisible">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="새로운 비밀번호"
+            android:textSize="18sp"
+            android:textColor="#000000"/>
+        <EditText
+            android:id="@+id/pwFind_newPwEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginHorizontal="10dp"
+            android:inputType="textPassword"
+            android:hint="새로운 비밀번호를 입력해주세요."
+            android:nextFocusDown="@id/pwFind_oneMorePwEt"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:text="비밀번호는 8자리 이상이여야 합니다."
+            android:textSize="16sp"
+            android:textColor="#001AFF"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="한번 더!"
+            android:textSize="18sp"
+            android:textColor="#000000"/>
+        <EditText
+            android:id="@+id/pwFind_oneMorePwEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginHorizontal="10dp"
+            android:inputType="textPassword"
+            android:hint="한번 더 입력해주세요."/>
+        <Button
+            android:id="@+id/pwFind_changePwBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginHorizontal="10dp"
+            android:text="비밀번호 변경"/>
+
+    </LinearLayout>
+</FrameLayout>
