@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     // 구글맵을 사용하기 위한 plugin
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
+    // 파이어베이스 연결을 위해 설정
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -55,6 +57,10 @@ dependencies {
 
     // img zoom-in zoom-out 을 위한 라이브러리
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+
+    // 파이어베이스를 연결해서 사용하기 위해 작성 (auth 사용)
+    implementation platform('com.google.firebase:firebase-bom:31.1.1')
+    implementation 'com.google.firebase:firebase-auth'
 
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.7.0'

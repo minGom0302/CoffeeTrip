@@ -11,6 +11,10 @@ public interface userInfo_service {
     @GET("user/login")
     Call<DTO_userInfo> loginCheck (@Query("id") String id, @Query("pw") String pw);
 
+    @GET("user/id")
+    Call<String> getId(
+            @Query("phone") String phone);
+
     @PUT("user/pwChange")
     Call<Integer> pwChange (
             @Query("pw") String pw,

@@ -1,4 +1,11 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+// buildscript 자체는 파이어베이스를 연결하기 위해 작성함
+buildscript {
+    dependencies {
+        classpath 'com.google.gms:google-services:4.3.13'
+    }
+}
+
 plugins {
     id 'com.android.application' version '7.3.1' apply false
     id 'com.android.library' version '7.3.1' apply false

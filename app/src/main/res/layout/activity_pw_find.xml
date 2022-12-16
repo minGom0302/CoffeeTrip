@@ -145,21 +145,14 @@
             android:layout_marginTop="5dp"
             android:layout_marginHorizontal="10dp"
             android:inputType="textPassword"
-            android:hint="새로운 비밀번호를 입력해주세요."
+            android:hint="8자리 이상을 입력해주세요."
             android:nextFocusDown="@id/pwFind_oneMorePwEt"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:text="비밀번호는 8자리 이상이여야 합니다."
-            android:textSize="16sp"
-            android:textColor="#001AFF"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:text="한번 더!"
+            android:text="비밀번호 다시 입력"
             android:textSize="18sp"
             android:textColor="#000000"/>
         <EditText
@@ -169,7 +162,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginHorizontal="10dp"
             android:inputType="textPassword"
-            android:hint="한번 더 입력해주세요."/>
+            android:hint="비밀번호를 한번 더 입력해주세요."/>
         <Button
             android:id="@+id/pwFind_changePwBtn"
             android:layout_width="match_parent"
@@ -177,6 +170,34 @@
             android:layout_marginTop="5dp"
             android:layout_marginHorizontal="10dp"
             android:text="비밀번호 변경"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:text="당신의 아이디는 "
+                android:textSize="14sp"
+                android:textColor="#000000"/>
+            <TextView
+                android:id="@+id/pwFind_yourIdTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:text="admin***"
+                android:textSize="14sp"
+                android:textColor="#FF0000"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:text=" 입니다."
+                android:textSize="14sp"
+                android:textColor="#000000"/>
+        </LinearLayout>
 
     </LinearLayout>
 </FrameLayout>

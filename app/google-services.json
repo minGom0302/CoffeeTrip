@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "49750548968",
+    "project_id": "coffeetrip-7c261",
+    "storage_bucket": "coffeetrip-7c261.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:49750548968:android:e37c19c0163a6308f4445d",
+        "android_client_info": {
+          "package_name": "com.example.coffeetrip"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "49750548968-9bl5ts1gttspogceasbslqq6hsrrjmik.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.coffeetrip",
+            "certificate_hash": "46eab61081b65325a2cd9e25ec20d9f1e0339e3d"
+          }
+        },
+        {
+          "client_id": "49750548968-tplm2sugfn6cme7cov3fndbq4ksss9qv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABv7vdCyLYzqtFbOQ1xdHG86QKe4UpiGY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "49750548968-tplm2sugfn6cme7cov3fndbq4ksss9qv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
