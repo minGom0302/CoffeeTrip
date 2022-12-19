@@ -201,10 +201,19 @@ public class Activity_pwFind extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<String> call, Response<String> response) {
                             if(response.isSuccessful()) {
-                                String id = response.body();
-                                int length = id.length();
-                                String secretId = id.substring(0, length-4) + "****";
-                                idTv.setText(secretId);
+                                if(response.body() != null) {
+                                    Toast.makeText(Activity_pwFind.this, "본인인증이 확인되었습니다.", Toast.LENGTH_SHORT).show();
+                                    String id = response.body();
+                                    int length = id.length();
+                                    String secretId = id.substring(0, length-4) + "****";
+                                    idTv.setText(secretId);
+                                    title.setText("비밀번호 변경");
+                                    smsLayout.setVisibility(View.INVISIBLE);
+                                    changePwLayout.setVisibility(View.VISIBLE);
+                                    timerTask.cancel();
+                                } else {
+                                    showInfoDialog("경고", "가입된 회원 정보가 없습니다.\n다시 확인해주시기 바랍니다.", 1);
+                                }
                             }
                         }
 
@@ -213,11 +222,7 @@ public class Activity_pwFind extends AppCompatActivity {
 
                         }
                     });
-                    timerTask.cancel();
-                    title.setText("비밀번호 변경");
-                    Toast.makeText(Activity_pwFind.this, "본인인증이 확인되었습니다.", Toast.LENGTH_SHORT).show();
-                    smsLayout.setVisibility(View.INVISIBLE);
-                    changePwLayout.setVisibility(View.VISIBLE);
+
                 } else {
                     // 일치하지 않을 때
                     Toast.makeText(Activity_pwFind.this, "인증코드가 일치하지 않습니다.", Toast.LENGTH_LONG).show();
