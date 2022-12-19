@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.coffeetrip.Interface.userInfo_service;
+import com.example.coffeetrip.handler.backspaceHandler;
 import com.example.coffeetrip.use.useItem;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -57,6 +58,7 @@ public class Activity_pwFind extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private PhoneAuthProvider.ForceResendingToken mResendToken;
+    private backspaceHandler bsHandler = new backspaceHandler(this);
 
     String number;
     String mVerificationId;
@@ -287,6 +289,7 @@ public class Activity_pwFind extends AppCompatActivity {
         imm.hideSoftInputFromWindow(btn.getWindowToken(), 0);
     }
 
+    // Dialog 띄우기
     private void showInfoDialog(String title, String message, int condition) {
         AlertDialog.Builder builder = new AlertDialog.Builder(Activity_pwFind.this);
         builder.setTitle(title);
@@ -302,5 +305,16 @@ public class Activity_pwFind extends AppCompatActivity {
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        bsHandler.onBackPressed();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        FirebaseAuth.getInstance().signOut();
     }
 }
