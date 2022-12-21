@@ -27,6 +27,8 @@ public class DTO_detail_review {
     public int type;
     @SerializedName("shopNm")
     public String shopNm;
+    @SerializedName("tel")
+    public String tel;
 
     public DTO_detail_review(int seq, int shopSeq, String userId, String nickName, String review, String imagePath, String imageName, float rating, String date) {
         this.seq = seq;
@@ -53,7 +55,7 @@ public class DTO_detail_review {
         this.userId = userId;
     }
 
-    public DTO_detail_review(int seq, int shopSeq, String userId, String nickName, String review, String imagePath, String imageName, float rating, String date, String shopNm) {
+    public DTO_detail_review(int seq, int shopSeq, String userId, String nickName, String review, String imagePath, String imageName, float rating, String date, String shopNm, String tel) {
         this.seq = seq;
         this.shopSeq = shopSeq;
         this.userId = userId;
@@ -64,6 +66,7 @@ public class DTO_detail_review {
         this.rating = rating;
         this.date = date;
         this.shopNm = shopNm;
+        this.tel = tel;
     }
 
     public int getSeq() {

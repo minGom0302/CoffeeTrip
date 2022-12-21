@@ -61,6 +61,7 @@ public class adapter_detail_image extends RecyclerView.Adapter<adapter_detail_im
         String url =  "http://119.148.144.244:9172/image/image/";
 
         Glide.with(context).load(url+fileName).placeholder(R.drawable.som1).into(holder.imageView);
+        Log.i("url fileName", fileName);
         //holder.imageView.setImageResource(R.drawable.som1);
 
         if(!(dto.getDate().length() < 1)) {
