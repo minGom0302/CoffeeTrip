@@ -2,11 +2,12 @@ package com.example.coffeetrip.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -24,12 +25,29 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+
 public class adapter_detail_review extends RecyclerView.Adapter<adapter_detail_review.MyViewHolder> {
     List<DTO_detail_review> reviewList;
+    String myNickname;
     Context context;
+    private OnItemClickListener mlistener = null;
+    private OnItemClickListener llistener = null;
 
-    public adapter_detail_review(List<DTO_detail_review> reviewList) {
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position, DTO_detail_review dto);
+    }
+
+    public interface OnItemClickListenerLayout {
+        void onItemClickLayout(View view, int position, DTO_detail_review dto);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) { mlistener = listener; }
+
+    public void setOnItemClickLayout(OnItemClickListener listener) { llistener = listener; }
+
+    public adapter_detail_review(List<DTO_detail_review> reviewList, String myNickname) {
         this.reviewList = reviewList;
+        this.myNickname = myNickname;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -37,8 +55,10 @@ public class adapter_detail_review extends RecyclerView.Adapter<adapter_detail_r
         private TextView review;
         private TextView rating;
         private TextView date;
+        private TextView deleteBtn;
         private RatingBar ratingBar;
         private ImageView imageView;
+        private LinearLayout layout;
 
         public MyViewHolder(@NonNull View view) {
             super(view);
@@ -47,9 +67,37 @@ public class adapter_detail_review extends RecyclerView.Adapter<adapter_detail_r
             review = (TextView) view.findViewById(R.id.listview_detail_review_review);
             rating = (TextView) view.findViewById(R.id.listview_detail_review_rating);
             date = (TextView) view.findViewById(R.id.listview_detail_review_date);
+            deleteBtn = view.findViewById(R.id.listview_detail_review_deleteBtn);
             ratingBar = (RatingBar) view.findViewById(R.id.listview_detail_review_ratingbar);
             imageView = (ImageView) view.findViewById(R.id.listview_detail_review_imageView);
+            layout = (LinearLayout) view.findViewById(R.id.listview_detail_review_layout);
 
+            deleteBtn.setPaintFlags(deleteBtn.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
+            deleteBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if(position != RecyclerView.NO_POSITION) {
+                        if(mlistener != null) {
+                            DTO_detail_review dto = reviewList.get(position);
+                            mlistener.onItemClick(view, position, dto);
+                        }
+                    }
+                }
+            });
+            layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if(position != RecyclerView.NO_POSITION) {
+                        if(llistener != null) {
+                            DTO_detail_review dto = reviewList.get(position);
+                            llistener.onItemClick(view, position, dto);
+                        }
+                    }
+                }
+            });
         }
     }
 
@@ -82,6 +130,10 @@ public class adapter_detail_review extends RecyclerView.Adapter<adapter_detail_r
         holder.nickName.setText(reviewDTO.getNickName());
         holder.date.setText(date);
         holder.ratingBar.setRating(reviewDTO.getRating());
+
+        if(myNickname.equals(reviewDTO.getNickName())) {
+            holder.deleteBtn.setVisibility(View.VISIBLE);
+        }
 
         if(reviewDTO.getRating() % 1 == 0) {
             holder.rating.setText(String.valueOf((int)reviewDTO.getRating()));

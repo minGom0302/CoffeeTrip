@@ -1,7 +1,9 @@
 package com.example.coffeetrip;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -159,7 +161,49 @@ public class Fragment_detail_review extends Fragment {
             public void onResponse(Call<List<DTO_detail_review>> call, Response<List<DTO_detail_review>> response) {
                 if(response.isSuccessful()) {
                     List<DTO_detail_review> reviewList = response.body();
-                    reviewAdapter = new adapter_detail_review(reviewList);
+                    reviewAdapter = new adapter_detail_review(reviewList, nickName);
+                    reviewAdapter.setOnItemClickListener(new adapter_detail_review.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(View view, int position, DTO_detail_review dto) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                            builder.setTitle("안내").setMessage("해당 리뷰를 삭제하시겠습니까?");
+                            builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    reviewAPI.deleteReview(dto.getSeq()).enqueue(new Callback<Integer>() {
+                                        @Override
+                                        public void onResponse(Call<Integer> call, Response<Integer> response) {
+                                            if(response.isSuccessful()) {
+                                                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                                builder.setTitle("안내").setMessage("리뷰가 삭제되었습니다.");
+                                                builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        setRecyclerView(seq);
+                                                    }
+                                                });
+                                                AlertDialog alertDialog = builder.create();
+                                                alertDialog.show();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<Integer> call, Throwable t) {
+
+                                        }
+                                    });
+                                }
+                            });
+                            builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    return;
+                                }
+                            });
+                            AlertDialog alertDialog = builder.create();
+                            alertDialog.show();
+                        }
+                    });
                     reviewRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
                     reviewRecyclerView.setAdapter(reviewAdapter);
                 }

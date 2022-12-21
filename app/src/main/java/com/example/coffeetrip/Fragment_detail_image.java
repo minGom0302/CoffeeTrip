@@ -27,7 +27,6 @@ import retrofit2.Response;
 
 public class Fragment_detail_image extends Fragment {
     String shopNm;
-    String TAG = "fragment_detail_image";
     RecyclerView recyclerView;
     adapter_detail_image adapterDetailImage;
     home_coffee_service coffeeAPI;

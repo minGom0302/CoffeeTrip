@@ -10,6 +10,7 @@ import java.util.Map;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -46,6 +47,10 @@ public interface home_coffee_service {
     Call<List<DTO_detail_review>> getDetailReview(
             @Query("seq") int seq );
 
+    @GET("detail/myReview")
+    Call<List<DTO_detail_review>> getMyReview(
+            @Query("id") String id );
+
     @GET("home/favorite")
     Call<List<DTO_home_coffee>> getFavorite(
             @Query("id") String id);
@@ -77,4 +82,8 @@ public interface home_coffee_service {
     Call<String> uploadMenuFiles(
             @Part ArrayList<MultipartBody.Part> files,
             @PartMap Map<String, String> data);
+
+    @DELETE("detail/review/delete")
+    Call<Integer> deleteReview(
+            @Query("seq") int seq);
 }
