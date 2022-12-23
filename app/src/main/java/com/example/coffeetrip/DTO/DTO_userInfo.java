@@ -15,6 +15,12 @@ public class DTO_userInfo {
     public String address;
     @SerializedName("phone")
     public String phone;
+    @SerializedName("sex")
+    public String sex;
+    @SerializedName("birth")
+    public String birth;
+    @SerializedName("secAddress")
+    public String secAddress;
 
     public DTO_userInfo(String id, String pw, String nm, String nickname, String address, String phone) {
         this.id = id;
@@ -23,6 +29,18 @@ public class DTO_userInfo {
         this.nickname = nickname;
         this.address = address;
         this.phone = phone;
+    }
+
+    public DTO_userInfo(String id, String pw, String nm, String nickname, String address, String phone, String sex, String birth, String secAddress) {
+        this.id = id;
+        this.pw = pw;
+        this.nm = nm;
+        this.nickname = nickname;
+        this.address = address;
+        this.phone = phone;
+        this.sex = sex;
+        this.birth = birth;
+        this.secAddress = secAddress;
     }
 
     public String getId() {
@@ -45,15 +63,11 @@ public class DTO_userInfo {
         return address;
     }
 
-    @Override
-    public String toString() {
-        return "DTO_userInfo{" +
-                "id='" + id + '\'' +
-                ", pw='" + pw + '\'' +
-                ", nm='" + nm + '\'' +
-                ", nickname='" + nickname + '\'' +
-                ", address='" + address + '\'' +
-                ", phone='" + phone + '\'' +
-                '}';
-    }
+    public String getPhone() { return phone; }
+
+    public String getSex() { return sex; }
+
+    public String getBirth() { return birth; }
+
+    public String getSecAddress() { return secAddress; }
 }

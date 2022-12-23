@@ -73,6 +73,7 @@ public class Fragment_main_mypage extends Fragment {
 
         editingBtn.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), Activity_ModifyInfo.class);
+            intent.putExtra("id", id);
             startActivityForResult(intent, MODIFY_INFO_ACTIVITY);
         });
 
@@ -88,7 +89,8 @@ public class Fragment_main_mypage extends Fragment {
             if(resultCode == RESULT_OK) {
                 String nick = intent.getExtras().getString("nick");
                 if(nick != null) {
-                    nicknameTv.setText(nick);
+                    nickname = nick;
+                    settingLayout();
                 }
             }
         }

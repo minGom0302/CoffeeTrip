@@ -20,6 +20,10 @@ public interface userInfo_service {
     Call<String> getId(
             @Query("phone") String phone);
 
+    @GET("user/info")
+    Call<DTO_userInfo> getUserInfo(
+            @Query("id") String id);
+
     @PUT("user/pwChange")
     Call<Integer> pwChange (
             @Query("pw") String pw,
@@ -28,5 +32,10 @@ public interface userInfo_service {
     @Multipart
     @POST("user/signup")
     Call<Integer> signUp(
+            @PartMap Map<String, String> data);
+
+    @Multipart
+    @POST("user/info/change")
+    Call<Integer> myInfoChange(
             @PartMap Map<String, String> data);
 }

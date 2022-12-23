@@ -29,8 +29,9 @@
             android:textColor="#000000"/>
         <ImageButton
             android:id="@+id/myPage_editingBtn"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:padding="5dp"
             android:src="@drawable/icon_editing"
             android:background="#ffffff"
             android:scaleType="fitCenter" />

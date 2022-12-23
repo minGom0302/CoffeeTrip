@@ -321,8 +321,8 @@ public class Activity_signUp extends AppCompatActivity {
         String pw = "";
         String nm = "";
         String nickName = "";
-        String address = "";
         String birth = "";
+        String secAddress = "";
 
         if(idEt.getText().toString().isEmpty()) {
             showToast("아이디를 입력해주세요.");
@@ -418,13 +418,12 @@ public class Activity_signUp extends AppCompatActivity {
             showToast("주소를 작성해주시기 바랍니다.");
             return;
         } else {
-            String s1 = addressFindTv.getText().toString();
-            String s2 = "";
-            if(!addressInputEt.getText().toString().isEmpty()) {
-                s2 = addressInputEt.getText().toString();
-            }
-            address = s1 + " " + s2;
-            map.put("address", address);
+            String add1 = addressFindTv.getText().toString();
+            map.put("address", add1);
+        }
+
+        if(!addressInputEt.getText().toString().isEmpty()) {
+            secAddress = addressInputEt.getText().toString();
         }
 
         map.put("id", id);
@@ -433,6 +432,7 @@ public class Activity_signUp extends AppCompatActivity {
         map.put("nickname", nickName);
         map.put("tel", number);
         map.put("sex", sex);
+        map.put("secAddress", secAddress);
 
         API.signUp(map).enqueue(new Callback<Integer>() {
             @Override
