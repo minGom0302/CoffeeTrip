@@ -30,7 +30,7 @@ public class Activity_ImageView extends AppCompatActivity {
 
     String[] items = {"사진 다운로드", "이미지 공유"};
     String nickName, review, date, imageName;
-    String url = "http://119.148.144.244:9172/image/image/";
+    String url = "http://MyServerAddress/image/image/";
     // 다운로드 중일 때 보여질 화면면
     ProgressDialog loadingDialog;
 

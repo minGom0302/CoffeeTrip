@@ -22,7 +22,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class useItem {
-    static String URL = "http://119.148.144.244:9172/";
+    static String URL = "http://MyServerAddress/";
     static Gson gson;
     static Retrofit retrofit;
     static DecimalFormat commaFormat;

@@ -39,6 +39,6 @@ public class Activity_webView extends AppCompatActivity {
             }
         });
 
-        webView.loadUrl("http://119.148.144.244:9172/addressAPI.html");
+        webView.loadUrl("http://MyServerAddress/addressAPI.html");
     }
 }

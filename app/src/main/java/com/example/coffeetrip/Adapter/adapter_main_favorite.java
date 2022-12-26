@@ -86,7 +86,7 @@ public class adapter_main_favorite extends RecyclerView.Adapter<adapter_main_fav
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        String url = "http://119.148.144.244:9172/image/title/";
+        String url = "http://MyServerAddress/image/title/";
 
         DTO_home_coffee item = DTO_list.get(position);
         holder.shopNm.setText(item.getNm());

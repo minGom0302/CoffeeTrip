@@ -100,7 +100,7 @@ public class adapter_home_coffee extends RecyclerView.Adapter<adapter_home_coffe
         holder.shopLoca.setText(item.loca + " " + item.gu);
         holder.favoriteCount.setText("좋아요 : " + useItem.createComma(item.favorite));
 
-        String url = "http://119.148.144.244:9172/image/title/";
+        String url = "http://MyServerAddress/image/title/";
         if(item.getImageName() == null) {
             holder.image.setImageResource(R.drawable.icon_cafe);
         } else {
