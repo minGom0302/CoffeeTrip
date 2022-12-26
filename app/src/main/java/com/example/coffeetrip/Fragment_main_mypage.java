@@ -11,6 +11,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,8 +39,10 @@ public class Fragment_main_mypage extends Fragment {
     TextView nicknameTv, reviewCntTv;
     ImageButton editingBtn;
     RecyclerView recyclerView;
+    AppCompatButton logoutBtn;
 
     SharedPreferences sp;
+    SharedPreferences.Editor sp_e;
     home_coffee_service API;
     adapter_detail_review reviewAdapter;
 
@@ -60,6 +63,7 @@ public class Fragment_main_mypage extends Fragment {
 
         API = useItem.getRetrofit().create(home_coffee_service.class);
         sp = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+        sp_e = sp.edit();
         nm = sp.getString("nm", null);
         nickname = sp.getString("nickname", null);
         address = sp.getString("address", null);
@@ -70,11 +74,16 @@ public class Fragment_main_mypage extends Fragment {
         reviewCntTv = (TextView) view.findViewById(R.id.myPage_reviewCntTv);
         editingBtn = (ImageButton) view.findViewById(R.id.myPage_editingBtn);
         recyclerView = (RecyclerView) view.findViewById(R.id.myPage_recyclerView);
+        logoutBtn = view.findViewById(R.id.myPage_logoutBtn);
 
         editingBtn.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), Activity_ModifyInfo.class);
             intent.putExtra("id", id);
             startActivityForResult(intent, MODIFY_INFO_ACTIVITY);
+        });
+
+        logoutBtn.setOnClickListener(v -> {
+            logoutCheck();
         });
 
         settingLayout();
@@ -169,5 +178,30 @@ public class Fragment_main_mypage extends Fragment {
 
             }
         });
+    }
+
+    private void logoutCheck() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("안내").setMessage("로그아웃을 하시겠습니까?");
+        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                sp_e.putBoolean("autoLoginCb", false);
+                sp_e.commit();
+
+                Intent intent = new Intent(getActivity(), Activity_Login.class);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
+        builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }

@@ -7,10 +7,20 @@
     android:orientation="vertical"
     tools:context=".Fragment_main_mypage">
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/myPage_logoutBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_gravity="end"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/frame_03"
+        android:text="로그아웃"
+        android:textStyle="bold"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:layout_marginHorizontal="20dp"
         android:orientation="horizontal">
         <TextView

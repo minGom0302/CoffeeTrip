@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -56,9 +57,6 @@ public class Activity_Login extends AppCompatActivity {
         // 핸드폰 내부에 저장하기 위해 객체 생성
         sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         sp_e = sp.edit();
-
-        // 통신 시 JSON 사용과 파싱을 위한 생성
-        useItem.setGsonAndRetrofit();
 
         // API 설정
         userAPI = useItem.getRetrofit().create(userInfo_service.class);
@@ -153,6 +151,7 @@ public class Activity_Login extends AppCompatActivity {
             item.toastMsg(this, "아이디 혹은 비밀번호를 확인하세요.");
         } else {
             // 기본 정보 내부에 저장 > 언제든 빨리 불러와 사용하기 위해서
+            sp_e.putString("pw", dto.pw);
             sp_e.putString("nm", dto.nm);
             sp_e.putString("nickname", dto.nickname);
             sp_e.putString("address", dto.address);
@@ -161,9 +160,16 @@ public class Activity_Login extends AppCompatActivity {
             if(saveIdCb.isChecked()) {
                 sp_e.putString("id", dto.id);
                 sp_e.putBoolean("saveId", true);
-            } else {
+            } else if(!saveIdCb.isChecked()){
                 sp_e.putBoolean("saveId", false);
             }
+
+            if(autoLoginCb.isChecked()) {
+                sp_e.putBoolean("autoLoginCb", true);
+            } else if(!autoLoginCb.isChecked()){
+                sp_e.putBoolean("autoLoginCb", false);
+            }
+
             sp_e.commit();
             loadingDialog.dismiss();
             // 메인 화면으로
@@ -177,13 +183,17 @@ public class Activity_Login extends AppCompatActivity {
 
     private void checkBoxSetUp() {
         String id = sp.getString("id", null);
-        Boolean saveId = sp.getBoolean("saveId", false);
+        boolean saveId = sp.getBoolean("saveId", false);
+        boolean autoLoginCheck = sp.getBoolean("autoLoginCb", false);
         if(saveId) {
             idEt.setText(id);
             saveIdCb.setChecked(true);
         }
+        if(autoLoginCheck) {
+            autoLoginCb.setChecked(true);
+        }
     }
 
-    @Override
+   @Override
     public void onBackPressed() { bsHandler.onBackPressed(); }
 }
